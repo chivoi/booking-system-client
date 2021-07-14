@@ -29,7 +29,6 @@ function App() {
           <Route exact path="/clients/:id" render={props => <ClientCard />} />
         </Switch>
       </Router>
-      <h1>Booking System</h1>
     </>
   );
 }
