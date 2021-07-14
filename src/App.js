@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 // styles
 import './App.css';
@@ -14,10 +14,21 @@ import ClientCard  from './components/my-clients/ClientCard'
 import LogIn from './components/auth/LogIn'
 
 function App() {
+
+  const [anchorEl, setAnchorEl] = useState(null);
+  
+  const handleMenuClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
     <>
       <Router>
-        <Nav/>
+        <Nav anchorEl={anchorEl} handleMenuClick={handleMenuClick} handleMenuClose={handleMenuClose} />
         <Switch>
           <Route exact path="/new" render={props => <NewBooking />} />
           <Route exact path="/bookings" render={props => <MyBookings />} />
