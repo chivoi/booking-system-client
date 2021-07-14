@@ -1,9 +1,11 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import AccountBoxRoundedIcon from '@material-ui/icons/AccountBoxRounded';
 
 const Nav = () => {
   return(
     <nav>
+      <AccountBoxRoundedIcon style={{fontSize:"2.5rem" }} />
       <ul>
         <li><NavLink exact to="/new"> Create Booking </NavLink></li>
         <li><NavLink exact to="/bookings"> My Bookings </NavLink></li>
