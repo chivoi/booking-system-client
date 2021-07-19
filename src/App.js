@@ -30,7 +30,7 @@ function App() {
     setDuration: null,
     paProvided: null,
     message: "",
-    loggedInUser: sessionStorage.getItem("user") || null,
+    loggedInUser: sessionStorage.getItem("email") || null,
     auth: {token: sessionStorage.getItem("token") || null}
   }
 

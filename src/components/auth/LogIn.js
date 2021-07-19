@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useUserContext } from '../../utils/userContext';
-import {logIn} from '../../services/auth'
+import { logIn } from '../../services/auth'
 
 const LogIn = ({ history }) => {
   const initialLogInFormState = {
@@ -9,7 +9,7 @@ const LogIn = ({ history }) => {
   }
   const [logInFormState, setLogInFormState] = useState(initialLogInFormState)
 
-  const { dispatch } = useUserContext;
+  const { store, dispatch } = useUserContext();
 
   const handleChange = e => {
     setLogInFormState({
@@ -21,10 +21,10 @@ const LogIn = ({ history }) => {
   const handleSubmit = e => {
     e.preventDefault();
     logIn(logInFormState)
-      .then(({email,jwt}) => {
+      .then(({username,jwt}) => {
         sessionStorage.setItem("token", jwt);
-        sessionStorage.setItem("user", email);
-        dispatch({type: 'setLoggedInUser', data: email})
+        sessionStorage.setItem("email", username);
+        dispatch({type: 'setLoggedInUser', data: username})
         dispatch({type: 'setToken', data: jwt})
         history.push('/new')
 		  })
@@ -37,7 +37,7 @@ const LogIn = ({ history }) => {
       <p>Back to the website</p>
       <form >
         <label>Email:</label>
-        <input type='email' name='email' value={logInFormState.username} onChange={handleChange}></input>
+        <input type='email' name='email' value={logInFormState.email} onChange={handleChange}></input>
         <label>Password:</label>
         <input type='password' name='password' value={logInFormState.password} onChange={handleChange}></input>
         <input type="submit" value="Login" onClick={handleSubmit} />
