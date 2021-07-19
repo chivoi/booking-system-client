@@ -6,6 +6,21 @@ export const reducer = (state, action) => {
         anchorEl: action.data
       };
     }
+    case 'setLoggedInUser': {
+			return {
+				...state,
+				loggedInUser: action.data
+			}
+		}
+		case 'setToken': {
+			return {
+				...state,
+				auth: {
+					...state.auth,
+					token: action.data
+				}
+			}
+		}
     case "setDate": {
       return {
         ...state,
