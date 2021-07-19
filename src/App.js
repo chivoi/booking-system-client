@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useReducer } from 'react';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+// utils
+import {reducer} from './utils/reducer';
 // styles
 import './App.css';
 // components
@@ -15,14 +17,39 @@ import LogIn from './components/auth/LogIn'
 
 function App() {
 
-  const [anchorEl, setAnchorEl] = useState(null);
+  // const [anchorEl, setAnchorEl] = useState(null);
   
+  const initialState = {
+    anchorEl: null,
+    date: new Date().toISOString().split("T")[0],
+    timeslot: "",
+    venue: "",
+    address: "",
+    eventType: "",
+    startTime: "",
+    setDuration: null,
+    paProvided: false,
+    message: null
+  }
+
+  const [store, dispatch] = useReducer(reducer, initialState);
+
+  const { date, timeslot, venue, address, eventType, startTime, setDuration, paProvided, message, anchorEl } = store;
+
+  const formData = { date, timeslot, venue, address, eventType, startTime, setDuration, paProvided, message };
+
   const handleMenuClick = (event) => {
-    setAnchorEl(event.currentTarget);
+    dispatch({
+      type: "setAnchorEl",
+      data: event.currentTarget,
+    });
   };
   
   const handleMenuClose = () => {
-    setAnchorEl(null);
+    dispatch({
+      type: "setAnchorEl",
+      data: null,
+    });
   };
 
   return (
