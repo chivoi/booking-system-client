@@ -1,4 +1,4 @@
-import React, { useState, useReducer } from 'react';
+import React, { useReducer } from 'react';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 // utils
 import {reducer} from './utils/reducer';
@@ -16,20 +16,18 @@ import ClientCard  from './components/my-clients/ClientCard'
 import LogIn from './components/auth/LogIn'
 
 function App() {
-
-  // const [anchorEl, setAnchorEl] = useState(null);
   
   const initialState = {
     anchorEl: null,
     date: new Date().toISOString().split("T")[0],
-    timeslot: "",
+    timeslot: null,
     venue: "",
     address: "",
-    eventType: "",
+    eventType: null,
     startTime: "",
     setDuration: null,
-    paProvided: false,
-    message: null
+    paProvided: null,
+    message: ""
   }
 
   const [store, dispatch] = useReducer(reducer, initialState);
@@ -57,7 +55,8 @@ function App() {
       <Router>
         <Nav anchorEl={anchorEl} handleMenuClick={handleMenuClick} handleMenuClose={handleMenuClose} />
         <Switch>
-          <Route exact path="/new" render={props => <NewBooking />} />
+          <Route exact path="/new" render={props => 
+          (<NewBooking {...props} dispatch={dispatch} />)} />
           <Route exact path="/bookings" render={props => <MyBookings />} />
           <Route exact path="/bookings/:id" render={props => <SingleBooking />} />
           <Route exact path="/details" render={props => <MyDetails />} />

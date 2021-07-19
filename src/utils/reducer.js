@@ -51,7 +51,7 @@ export const reducer = (state, action) => {
     case "setPaProvided": {
       return {
         ...state,
-        setPaProvided: action.data
+        paProvided: action.data
       };
     }
     case "setMessage": {
