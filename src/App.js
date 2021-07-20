@@ -21,24 +21,26 @@ function App() {
   
   const initialState = {
     anchorEl: null,
-    date: new Date().toISOString().split("T")[0],
+    date: null,
     timeslot: null,
-    venue: "",
-    address: "",
+    venue: null,
+    address: null,
     eventType: null,
-    startTime: "",
+    startTime: null,
     setDuration: null,
     paProvided: null,
-    message: "",
+    message: null,
     loggedInUser: sessionStorage.getItem("email") || null,
     auth: {token: sessionStorage.getItem("token") || null}
   }
 
   const [store, dispatch] = useReducer(reducer, initialState);
 
+  // debugging
+
   const { date, timeslot, venue, address, eventType, startTime, setDuration, paProvided, message, anchorEl } = store;
 
-  const formData = { date, timeslot, venue, address, eventType, startTime, setDuration, paProvided, message };
+  // const formData = { date, timeslot, venue, address, eventType, startTime, setDuration, paProvided, message };
 
   const handleMenuClick = (event) => {
     dispatch({

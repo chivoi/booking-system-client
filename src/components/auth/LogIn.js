@@ -9,7 +9,7 @@ const LogIn = ({ history }) => {
   }
   const [logInFormState, setLogInFormState] = useState(initialLogInFormState)
 
-  const { store, dispatch } = useUserContext();
+  const { dispatch } = useUserContext();
 
   const handleChange = e => {
     setLogInFormState({
