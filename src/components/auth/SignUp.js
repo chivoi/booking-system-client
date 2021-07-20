@@ -18,7 +18,7 @@ const SignUp = () => {
   const [formState, setFormState] = useState(initialFormState);
   const { first_name, last_name, phone_num, email, password, password_confirmation } = formState;
 
-  const {store, dispatch} = useUserContext();
+  const {dispatch} = useUserContext();
   // const {firstName, lastName, phoneNum, loggedInUser} = store;
   let history = useHistory();
 

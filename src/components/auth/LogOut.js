@@ -7,19 +7,15 @@ import { capitalize } from '../../utils/helpers';
 const LogOut = () => {
   const { store, dispatch } = useUserContext();
 
-  const clearStore = (store) => {
+  useEffect( ()=>{
+    logOut();
     for (let i in store){
       let action = "set".concat(capitalize(i).split(" ").join(""));
       dispatch({
         type: action,
         data: ""})
     }
-  }
-
-  useEffect( ()=>{
-    logOut();
-    clearStore(store);
-  },[]) 
+  },[store]) 
 
   return(
     <>
