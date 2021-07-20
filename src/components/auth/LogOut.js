@@ -15,7 +15,7 @@ const LogOut = () => {
         type: action,
         data: ""})
     }
-  },[store]) 
+  },[store, dispatch]) 
 
   return(
     <>
