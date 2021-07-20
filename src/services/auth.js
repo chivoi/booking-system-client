@@ -9,7 +9,7 @@ export async function logIn(data) {
 	const response = await bookingSystemAPI.post('/api/auth/log_in', data);
 	return response.data;
 }
-export async function signOut(data) {
+export async function logOut() {
 	sessionStorage.clear();
 	return "Logged out";
 }

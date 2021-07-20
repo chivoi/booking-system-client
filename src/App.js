@@ -16,6 +16,7 @@ import Clients  from './components/my-clients/index'
 import ClientCard  from './components/my-clients/ClientCard'
 import LogIn from './components/auth/LogIn'
 import SignUp from './components/auth/SignUp'
+import LogOut from './components/auth/LogOut'
 
 function App() {
   
@@ -39,7 +40,7 @@ function App() {
 
   const [store, dispatch] = useReducer(reducer, initialState);
 
-  const { anchorEl } = store;
+  const { anchorEl, loggedInUser } = store;
 
   // debugging
 
@@ -67,12 +68,14 @@ function App() {
         <Router>
           <Nav anchorEl={anchorEl} handleMenuClick={handleMenuClick} handleMenuClose={handleMenuClose} />
           <Switch>
+            <Route exact path="/" 
+              render = {props => (loggedInUser ? <MyBookings /> : <LogIn />)} />
             <Route exact path="/new" render={props => 
             (<NewBooking {...props} dispatch={dispatch} />)} />
             <Route exact path="/bookings" render={props => <MyBookings />} />
             <Route exact path="/bookings/:id" render={props => <SingleBooking />} />
             <Route exact path="/details" render={props => <MyDetails />} />
-            <Route exact path="/sign-out" render={props => <LogIn />} />
+            <Route exact path="/log-out" render={props => <LogOut />} />
             <Route exact path="/availability" render={props => <Availability />} />
             <Route exact path="/clients" render={props => <Clients />} />
             <Route exact path="/clients/:id" render={props => <ClientCard />} />

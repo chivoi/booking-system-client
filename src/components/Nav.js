@@ -14,8 +14,13 @@ const Nav = ({anchorEl, handleMenuClick, handleMenuClose}) => {
 
   return(
     <StyledNav>
-      <StyledNavP><NavLink exact to="/new"> Create Booking </NavLink></StyledNavP>
-      <StyledNavP><NavLink exact to="/availability"> My Availability </NavLink></StyledNavP>
+      {loggedInUser &&
+        <div style={{display: "flex", flexDirection: "row"} } >
+          <StyledNavP><NavLink exact to="/new"> Create Booking </NavLink></StyledNavP>
+          <StyledNavP><NavLink exact to="/availability"> My Availability </NavLink></StyledNavP>
+        </div> 
+      }
+      
       <div>
       <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleMenuClick}>
       <AccountBoxRoundedIcon style={{fontSize:"3rem" }} />
@@ -27,11 +32,21 @@ const Nav = ({anchorEl, handleMenuClick, handleMenuClose}) => {
         open={Boolean(anchorEl)}
         onClose={handleMenuClose}
       >
-        <MenuItem onClick={handleMenuClose}>Logged in as: {loggedInUser} </MenuItem>
-        <MenuItem onClick={handleMenuClose}><NavLink exact to="/bookings"> My Bookings </NavLink></MenuItem>
-        <MenuItem onClick={handleMenuClose}><NavLink exact to="/details"> My Details </NavLink></MenuItem>
-        <MenuItem onClick={handleMenuClose}><NavLink exact to="/clients"> My Clients </NavLink></MenuItem>
-        <MenuItem onClick={handleMenuClose}><NavLink exact to="/sign-out"> Log Out </NavLink></MenuItem>
+        {loggedInUser && 
+          <div>
+            <MenuItem onClick={handleMenuClose}>Logged in as: {loggedInUser} </MenuItem> 
+            <MenuItem onClick={handleMenuClose}><NavLink exact to="/bookings"> My Bookings </NavLink></MenuItem>
+            <MenuItem onClick={handleMenuClose}><NavLink exact to="/details"> My Details </NavLink></MenuItem>
+            <MenuItem onClick={handleMenuClose}><NavLink exact to="/clients"> My Clients </NavLink></MenuItem>
+            <MenuItem onClick={handleMenuClose}><NavLink exact to="/log-out"> Log Out </NavLink></MenuItem>
+          </div>
+        }
+        {!loggedInUser && 
+          <div>
+            <MenuItem onClick={handleMenuClose}><NavLink exact to="/log-in">Log In</NavLink></MenuItem>
+            <MenuItem onClick={handleMenuClose}><NavLink exact to="/sign-up">Sign Up</NavLink></MenuItem>
+          </div>
+        } 
       </Menu>
     </div>
     </StyledNav>

@@ -42,9 +42,8 @@ const SignUp = () => {
         dispatch({type: 'setPhoneNum', data: phone_num})
         history.push('/new')
       })
+      .catch((error) => console.log(error))
   }
-
-  console.log(store);
 
   return(
     <FormDiv>
