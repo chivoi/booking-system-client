@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 const bookingSystemAPI = axios.create({
-  baseURL: 'http://localhost:3000'
+  // baseURL: 'http://localhost:3000'
+  baseURL: 'https://alex-velasco-book-staging.herokuapp.com'
 })
 
 bookingSystemAPI.interceptors.request.use(req => {
