@@ -32,9 +32,9 @@ function App() {
     message: null,
     loggedInUser: sessionStorage.getItem("email") || null,
     auth: {token: sessionStorage.getItem("token") || null},
-    firstName: null,
-    lastName: null,
-    phoneNum: null
+    firstName: sessionStorage.getItem("firstName") ||null,
+    lastName: sessionStorage.getItem("lastName") ||null,
+    phoneNum: sessionStorage.getItem("phoneNum") ||null
   }
 
   const [store, dispatch] = useReducer(reducer, initialState);

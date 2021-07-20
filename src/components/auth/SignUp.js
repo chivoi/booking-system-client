@@ -1,7 +1,10 @@
 import React, {useState} from 'react';
 import {useHistory} from 'react-router-dom';
+// utils
 import {signUp} from '../../services/auth';
 import {useUserContext} from '../../utils/userContext';
+// styled
+import {FormDiv, StyledForm, FormHeading, FormSubmit} from '../styled/SignUpFormStyles'
 
 const SignUp = () => {
   const initialFormState = {
@@ -10,7 +13,8 @@ const SignUp = () => {
 		password_confirmation: null
 	}
   const [formState, setFormState] = useState(initialFormState);
-  const {dispatch} = useUserContext;
+  const {store, dispatch} = useUserContext();
+  const {firstName, lastName, phoneNum, loggedInUser} = store;
   let history = useHistory();
 
 
@@ -34,17 +38,24 @@ const SignUp = () => {
   }
 
   return(
-    <>
-      <h1>Sign Up</h1>
+    <FormDiv>
+      <FormHeading>Sign Up</FormHeading>
       <p>Back to the website</p>
-      <form >
+      <p>Please enter your best details we can use to contact you.</p>
+      <StyledForm>
+        <label>First name: </label>
+        <input type="text" name="firstName" id="firstName" />
+        <label>Last name: </label>
+        <input type="text" name="lastName" id="lasttName" />
+        <label>Phone number: </label>
+        <input type="text" name="phoneNum" id="phoneNum" />
         <label>Email:</label>
         <input type='email' name='email' value={formState.email} onChange={handleChange}></input>
         <label>Password:</label>
         <input type='password' name='password' value={formState.password} onChange={handleChange}></input>
-        <input type="submit" value="Login" onClick={handleSubmit} />
-		  </form>
-    </>
+        <FormSubmit type="submit" value="Create account" onClick={handleSubmit} />
+		  </StyledForm>
+    </FormDiv>
   )
 }
 

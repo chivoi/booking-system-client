@@ -35,12 +35,7 @@ const LogIn = ({ history }) => {
     <>
       <h1>Log In</h1>
       <p>Back to the website</p>
-      <p>Please enter your best details we can use to contact you.</p>
-      <form >
-        <label>First name: </label>
-        <input type="text" name="firstName" id="firstName" />
-        <label>Last name</label>
-        <label></label>
+      <form>
         <label>Email:</label>
         <input type='email' name='email' value={formState.email} onChange={handleChange}></input>
         <label>Password:</label>
