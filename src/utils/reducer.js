@@ -75,6 +75,24 @@ export const reducer = (state, action) => {
         message: action.data
       };
     }
+    case 'setFirstName': {
+			return {
+				...state,
+				firstName: action.data
+			}
+		}
+    case 'setLastName': {
+			return {
+				...state,
+				lastName: action.data
+			}
+		}
+    case 'setPhoneNum': {
+			return {
+				...state,
+				phoneNum: action.data
+			}
+		}
     default:
       return state;
   }

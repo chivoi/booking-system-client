@@ -31,14 +31,17 @@ function App() {
     paProvided: null,
     message: null,
     loggedInUser: sessionStorage.getItem("email") || null,
-    auth: {token: sessionStorage.getItem("token") || null}
+    auth: {token: sessionStorage.getItem("token") || null},
+    firstName: null,
+    lastName: null,
+    phoneNum: null
   }
 
   const [store, dispatch] = useReducer(reducer, initialState);
 
-  // debugging
+  const { anchorEl } = store;
 
-  const { date, timeslot, venue, address, eventType, startTime, setDuration, paProvided, message, anchorEl } = store;
+  // debugging
 
   // const formData = { date, timeslot, venue, address, eventType, startTime, setDuration, paProvided, message };
 
