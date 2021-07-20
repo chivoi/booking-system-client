@@ -30,11 +30,11 @@ function App() {
     setDuration: null,
     paProvided: null,
     message: null,
-    loggedInUser: sessionStorage.getItem("email") || null,
-    auth: {token: sessionStorage.getItem("token") || null},
-    firstName: sessionStorage.getItem("firstName") ||null,
-    lastName: sessionStorage.getItem("lastName") ||null,
-    phoneNum: sessionStorage.getItem("phoneNum") ||null
+    loggedInUser: sessionStorage.getItem("email") || "",
+    auth: {token: sessionStorage.getItem("token") || ""},
+    firstName: sessionStorage.getItem("firstName") || "",
+    lastName: sessionStorage.getItem("lastName") || "",
+    phoneNum: sessionStorage.getItem("phoneNum") || ""
   }
 
   const [store, dispatch] = useReducer(reducer, initialState);
@@ -44,6 +44,8 @@ function App() {
   // debugging
 
   // const formData = { date, timeslot, venue, address, eventType, startTime, setDuration, paProvided, message };
+
+  console.log(store);
 
   const handleMenuClick = (event) => {
     dispatch({

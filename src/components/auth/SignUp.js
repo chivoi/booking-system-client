@@ -8,15 +8,19 @@ import {FormDiv, StyledForm, FormHeading, FormSubmit} from '../styled/SignUpForm
 
 const SignUp = () => {
   const initialFormState = {
-		email: null, 
-		password: null, 
-		password_confirmation: null
+    first_name: "",
+    last_name: "",
+    phone_num: "",
+		email: "", 
+		password: "",
+    password_confirmation: ""
 	}
   const [formState, setFormState] = useState(initialFormState);
-  const {store, dispatch} = useUserContext();
-  const {firstName, lastName, phoneNum, loggedInUser} = store;
-  let history = useHistory();
+  const { first_name, last_name, phone_num, email, password, password_confirmation } = formState;
 
+  const {store, dispatch} = useUserContext();
+  // const {firstName, lastName, phoneNum, loggedInUser} = store;
+  let history = useHistory();
 
   const handleChange = e => {
     setFormState({
@@ -33,26 +37,33 @@ const SignUp = () => {
         sessionStorage.setItem("email", username);
         dispatch({type: 'setLoggedInUser', data: username})
         dispatch({type: 'setToken', data: jwt})
+        dispatch({type: 'setFirstName', data: first_name})
+        dispatch({type: 'setLastName', data: last_name})
+        dispatch({type: 'setPhoneNum', data: phone_num})
         history.push('/new')
       })
   }
+
+  console.log(store);
 
   return(
     <FormDiv>
       <FormHeading>Sign Up</FormHeading>
       <p>Back to the website</p>
-      <p>Please enter your best details we can use to contact you.</p>
+      <p>Please enter your best contact details.</p>
       <StyledForm>
         <label>First name: </label>
-        <input type="text" name="firstName" id="firstName" />
+        <input type="text" name="first_name" id="first_name" value={first_name} onChange={handleChange}/>
         <label>Last name: </label>
-        <input type="text" name="lastName" id="lasttName" />
+        <input type="text" name="last_name" id="last_name" value={last_name} onChange={handleChange} />
         <label>Phone number: </label>
-        <input type="text" name="phoneNum" id="phoneNum" />
+        <input type="text" name="phone_num" id="phone_num" value={phone_num}onChange={handleChange} />
         <label>Email:</label>
-        <input type='email' name='email' value={formState.email} onChange={handleChange}></input>
+        <input type='email' name='email' value={email} onChange={handleChange}></input>
         <label>Password:</label>
-        <input type='password' name='password' value={formState.password} onChange={handleChange}></input>
+        <input type='password' name='password' value={password} onChange={handleChange}></input>
+        <label>Confirm password:</label>
+        <input type='password' name='password_confirmation' value={password_confirmation} onChange={handleChange}></input>
         <FormSubmit type="submit" value="Create account" onClick={handleSubmit} />
 		  </StyledForm>
     </FormDiv>
