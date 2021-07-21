@@ -9,13 +9,16 @@ const LogOut = () => {
 
   useEffect( ()=>{
     logOut();
-    for (let i in store){
-      let action = "set".concat(capitalize(i).split(" ").join(""));
-      dispatch({
-        type: action,
-        data: ""})
+    const clearStore = store => {
+      for (let i in store){
+        let action = "set".concat(capitalize(i).split(" ").join(""));
+        dispatch({
+          type: action,
+          data: ""})
+      }
     }
-  },[store, dispatch]) 
+    clearStore(store);
+  },[]) 
 
   return(
     <>
