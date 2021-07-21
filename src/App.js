@@ -35,7 +35,8 @@ function App() {
     auth: {token: sessionStorage.getItem("token") || ""},
     firstName: sessionStorage.getItem("firstName") || "",
     lastName: sessionStorage.getItem("lastName") || "",
-    phoneNum: sessionStorage.getItem("phoneNum") || ""
+    phoneNum: sessionStorage.getItem("phoneNum") || "",
+    isAdmin: false
   }
 
   const [store, dispatch] = useReducer(reducer, initialState);

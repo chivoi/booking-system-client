@@ -11,7 +11,7 @@ const LogIn = () => {
   const [formState, setFormState] = useState(initialFormState)
 
   let history = useHistory();
-  
+
   const { dispatch } = useUserContext();
 
   const handleChange = e => {
@@ -24,7 +24,7 @@ const LogIn = () => {
   const handleSubmit = e => {
     e.preventDefault();
     logIn(formState)
-      .then(({username, jwt, first_name, last_name, phone_num}) => {
+      .then(({username, jwt, first_name, last_name, phone_num, is_admin}) => {
         sessionStorage.setItem("token", jwt);
         sessionStorage.setItem("email", username);
         dispatch({type: 'setLoggedInUser', data: username})
@@ -32,6 +32,7 @@ const LogIn = () => {
         dispatch({type: 'setFirstName', data: first_name})
         dispatch({type: 'setLastName', data: last_name})
         dispatch({type: 'setPhoneNum', data: phone_num})
+        dispatch({type: 'setIsAdmin', data: is_admin})
         history.push('/new')
 		  })
 		  .catch((error) => console.log(error))

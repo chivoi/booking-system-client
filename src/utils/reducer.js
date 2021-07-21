@@ -93,6 +93,12 @@ export const reducer = (state, action) => {
 				phoneNum: action.data
 			}
 		}
+    case 'setIsAdmin': {
+			return {
+				...state,
+				isAdmin: action.data
+			}
+		}
     default:
       return state;
   }
