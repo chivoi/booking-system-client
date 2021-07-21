@@ -22,21 +22,28 @@ function App() {
   
   const initialState = {
     anchorEl: null,
-    date: null,
-    timeslot: null,
-    venue: null,
-    address: null,
-    eventType: null,
-    startTime: null,
-    setDuration: null,
-    paProvided: null,
-    message: null,
     loggedInUser: sessionStorage.getItem("email") || "",
-    auth: {token: sessionStorage.getItem("token") || ""},
-    firstName: sessionStorage.getItem("firstName") || "",
-    lastName: sessionStorage.getItem("lastName") || "",
-    phoneNum: sessionStorage.getItem("phoneNum") || "",
-    isAdmin: false
+    auth: {
+      token: sessionStorage.getItem("token") || ""
+    },
+    booking: {
+      date: null,
+      timeslot: null,
+      venue: null,
+      address: null,
+      eventType: null,
+      startTime: null,
+      setDuration: null,
+      paProvided: null,
+      message: null
+    },
+    userDetails: {
+      firstName: sessionStorage.getItem("firstName") || "",
+      lastName: sessionStorage.getItem("lastName") || "",
+      phoneNum: sessionStorage.getItem("phoneNum") || "",
+      isAdmin: false
+    },
+    bookings: []
   }
 
   const [store, dispatch] = useReducer(reducer, initialState);
@@ -71,8 +78,7 @@ function App() {
           <Switch>
             <Route exact path="/" 
               render = {props => (loggedInUser ? <MyBookings /> : <LogIn />)} />
-            <Route exact path="/new" render={props => 
-            (<NewBooking {...props} dispatch={dispatch} />)} />
+            <Route exact path="/new" render={props => <NewBooking />} />
             <Route exact path="/bookings" render={props => <MyBookings />} />
             <Route exact path="/bookings/:id" render={props => <SingleBooking />} />
             <Route exact path="/details" render={props => <MyDetails />} />

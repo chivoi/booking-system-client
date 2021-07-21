@@ -1,4 +1,6 @@
-import React from 'react'
+import React, {useState} from 'react';
+import {useHistory, useParams} from 'react-router-dom';
+import {useUserContext} from '../utils/userContext';
 // styled
 import {FormDiv, StyledForm, StyledFormCol, RadioButtons, FormHeading, FormSubmit} from './styled/FormStyles'
 // utils
@@ -10,6 +12,9 @@ const NewBooking = ( {dispatch} ) => {
   const timeslotOptions = ["08:00 - 16:00", "17:00 - 23:00"]
   const eventTypes = ["Wedding", "Party", "Reception", "Corporate", "Festival", "Other"]
   const setDurations = [30, 35, 40, 45, 50, 60, 90, 120, 150, 180]
+
+
+  
 
   const handleSubmit = e => {
     e.preventDefault();

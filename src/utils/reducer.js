@@ -24,81 +24,126 @@ export const reducer = (state, action) => {
     case "setDate": {
       return {
         ...state,
-        date: action.data
+        booking: {
+					...state.booking,
+					date: action.data
+				}
       };
     }
     case "setTimeslot": {
       return {
         ...state,
-        timeslot: action.data
+        booking: {
+					...state.booking,
+					timeslot: action.data
+				}
       };
     }
     case "setVenue": {
       return {
         ...state,
-        venue: action.data
+        booking: {
+					...state.booking,
+					venue: action.data
+				}
       };
     }
     case "setAddress": {
       return {
         ...state,
-        address: action.data
+        booking: {
+					...state.booking,
+				  address: action.data
+				}
       };
     }
     case "setEventType": {
       return {
         ...state,
-        eventType: action.data
+        booking: {
+					...state.booking,
+					eventType: action.data
+				}
       };
     }
     case "setStartTime": {
       return {
         ...state,
-        startTime: action.data
+        booking: {
+					...state.booking,
+					startTime: action.data
+				}
       };
     }
     case "setSetDuration": {
       return {
         ...state,
-        setDuration: action.data
+        booking: {
+					...state.booking,
+					setDuration: action.data
+				}
       };
     }
     case "setPaProvided": {
       return {
         ...state,
-        paProvided: action.data
+        booking: {
+					...state.booking,
+					paProvided: action.data
+				}
       };
     }
     case "setMessage": {
       return {
         ...state,
-        message: action.data
+        booking: {
+					...state.booking,
+					message: action.data
+				}
       };
     }
     case 'setFirstName': {
-			return {
-				...state,
-				firstName: action.data
-			}
+      return {
+        ...state,
+        userDetails: {
+					...state.userDetails,
+					firstName: action.data
+				}
+      };
 		}
     case 'setLastName': {
-			return {
-				...state,
-				lastName: action.data
-			}
+      return {
+        ...state,
+        userDetails: {
+					...state.userDetails,
+					lastName: action.data
+				}
+      };
 		}
     case 'setPhoneNum': {
-			return {
-				...state,
-				phoneNum: action.data
-			}
+      return {
+        ...state,
+        userDetails: {
+					...state.userDetails,
+					phoneNum: action.data
+				}
+      };
 		}
     case 'setIsAdmin': {
-			return {
-				...state,
-				isAdmin: action.data
-			}
+      return {
+        ...state,
+        userDetails: {
+					...state.userDetails,
+					isAdmin: action.data
+				}
+      };
 		}
+    case 'setBookings': {
+      return {
+        ...state,
+        bookings: action.data
+      }
+    }
     default:
       return state;
   }
