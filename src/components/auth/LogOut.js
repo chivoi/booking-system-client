@@ -18,6 +18,7 @@ const LogOut = () => {
       }
     }
     clearStore(store);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]) 
 
   return(
