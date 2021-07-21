@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
+import {useHistory} from 'react-router-dom';
 import { useUserContext } from '../../utils/userContext';
 import { logIn } from '../../services/auth'
 
-const LogIn = ({ history }) => {
+const LogIn = () => {
   const initialFormState = {
     email: "",
     password: ""
   }
   const [formState, setFormState] = useState(initialFormState)
 
+  let history = useHistory();
+  
   const { dispatch } = useUserContext();
 
   const handleChange = e => {
@@ -21,11 +24,14 @@ const LogIn = ({ history }) => {
   const handleSubmit = e => {
     e.preventDefault();
     logIn(formState)
-      .then(({username,jwt}) => {
+      .then(({username, jwt, first_name, last_name, phone_num}) => {
         sessionStorage.setItem("token", jwt);
         sessionStorage.setItem("email", username);
         dispatch({type: 'setLoggedInUser', data: username})
         dispatch({type: 'setToken', data: jwt})
+        dispatch({type: 'setFirstName', data: first_name})
+        dispatch({type: 'setLastName', data: last_name})
+        dispatch({type: 'setPhoneNum', data: phone_num})
         history.push('/new')
 		  })
 		  .catch((error) => console.log(error))

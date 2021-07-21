@@ -6,7 +6,7 @@ export const setApiUrl = () => {
   };
 
   if (process.env.NODE_ENV === "development") {
-    return process.env.REACT_APP_API_URL || "http://localhost:8000"
+    return process.env.REACT_APP_API_URL || "http://localhost:3000"
   }
 }
 
