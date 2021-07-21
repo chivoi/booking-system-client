@@ -144,6 +144,23 @@ export const reducer = (state, action) => {
         bookings: action.data
       }
     }
+    case 'updateBooking': {
+			const booking = state.bookings.find((booking) => booking.id == action.data.id)
+			const rest = state.bookings.filter((booking) => booking.id != action.data.id)
+			const updatedBooking = Object.assign(booking, action.data)
+			return {
+				...state,
+				bookings: [updatedBooking, ...rest]
+			}
+		}
+    case 'addBooking': {
+      return {
+				...state,
+				bookings: [action.data, ...state.bookings]
+			}
+    }
+    
+    
     default:
       return state;
   }

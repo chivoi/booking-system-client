@@ -1,23 +1,62 @@
-import React, {useState} from 'react';
+import React, {useEffect} from 'react';
 import {useHistory, useParams} from 'react-router-dom';
 import {useUserContext} from '../utils/userContext';
+import {getBooking, createBooking, updateBooking} from '../services/bookings';
 // styled
 import {FormDiv, StyledForm, StyledFormCol, RadioButtons, FormHeading, FormSubmit} from './styled/FormStyles'
 // utils
-import {capitalize} from '../utils/helpers';
+import {capitalize, nextId} from '../utils/helpers';
 
 
-const NewBooking = ( {dispatch} ) => {
-
+const NewBooking = () => {
   const timeslotOptions = ["08:00 - 16:00", "17:00 - 23:00"]
   const eventTypes = ["Wedding", "Party", "Reception", "Corporate", "Festival", "Other"]
   const setDurations = [30, 35, 40, 45, 50, 60, 90, 120, 150, 180]
 
+  const { store, dispatch } = useUserContext();
+  const {bookings} = store;
+  // const {date, timeslot, venue, address, eventType, startTime, setDuration, paProvided, message} = store.booking;
 
-  
+  let history = useHistory();
+	let {id} = useParams();
+
+  useEffect(() => {
+    const setBookingData = (booking) => {
+      for (let i of booking){
+        let action = "set".concat(capitalize(i.split("_")).join(""));
+        dispatch({
+          type: action,
+          data: booking[i]
+        })
+      }
+    }
+
+		if(id) {
+			getBooking(id)
+			.then(booking => {
+				console.log(booking);
+        setBookingData(booking);
+			})
+		}
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+	},[id])
 
   const handleSubmit = e => {
     e.preventDefault();
+    if (id) {
+      updateBooking( {id: id, ...store.booking} )
+        .then(()=> {
+          dispatch({type: 'updateBooking', data: {id: id, ...store.booking}})
+				  history.push(`/bookings/${id}`)
+        })
+    } else {
+      createBooking({...store.booking, id: nextId(bookings)})
+        .then(booking => {
+          dispatch({type: 'addBooking', data: booking})
+          history.push('/bookings')
+        })
+        .catch(err => console.log(err))
+    }
   };
 
   const handleChange = e => {
@@ -31,7 +70,7 @@ const NewBooking = ( {dispatch} ) => {
   return(
     <FormDiv>
       <FormHeading>New Booking</FormHeading>
-      <StyledForm onChange={handleSubmit}>
+      <StyledForm onSubmit={handleSubmit}>
         <StyledFormCol>
           <label htmlFor="date">Select date </label>
           <input 
@@ -80,7 +119,7 @@ const NewBooking = ( {dispatch} ) => {
         <StyledFormCol>
           <label>Message</label>
           <textarea name="message" rows="10" cols="30" id="message" onChange={handleChange}/>
-          <FormSubmit type="submit" value="Book" />
+          <FormSubmit type="submit" value={id ? "Update Booking" : "Book"} />
         </StyledFormCol>
       </StyledForm>
     </FormDiv>
