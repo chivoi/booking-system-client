@@ -1,56 +1,68 @@
-import React, {useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {useHistory, useParams} from 'react-router-dom';
 import {useUserContext} from '../utils/userContext';
 import {getBooking, createBooking, updateBooking} from '../services/bookings';
 // styled
 import {FormDiv, StyledForm, StyledFormCol, RadioButtons, FormHeading, FormSubmit} from './styled/FormStyles'
 // utils
-import {capitalize, nextId} from '../utils/helpers';
+import {nextId} from '../utils/helpers';
 
 
 const NewBooking = () => {
-  const timeslotOptions = ["08:00 - 16:00", "17:00 - 23:00"]
-  const eventTypes = ["Wedding", "Party", "Reception", "Corporate", "Festival", "Other"]
-  const setDurations = [30, 35, 40, 45, 50, 60, 90, 120, 150, 180]
+  const timeslotOptions = {1: "08:00 - 16:00", 2: "17:00 - 23:00"};
+  const eventTypes = {1: "Wedding", 2: "Party", 3: "Reception", 4: "Corporate", 5: "Festival", 6: "Other"};
+  const setDurations = [30, 35, 40, 45, 50, 60, 90, 120, 150, 180];
 
+  const initialFormState = {
+		date: "",
+    timeslot: "",
+    venue: "",
+    address: "",
+    eventType: "",
+    startTime: "",
+    setDuration: "",
+    paProvided: "",
+    message: ""
+	}
+
+  const [formState, setFormState] = useState(initialFormState);
+  const {date, timeslot, venue, address, eventType, startTime, setDuration, message } = formState;
   const { store, dispatch } = useUserContext();
   const {bookings} = store;
-  // const {date, timeslot, venue, address, eventType, startTime, setDuration, paProvided, message} = store.booking;
-
   let history = useHistory();
 	let {id} = useParams();
 
   useEffect(() => {
-    const setBookingData = (booking) => {
-      for (let i of booking){
-        let action = "set".concat(capitalize(i.split("_")).join(""));
-        dispatch({
-          type: action,
-          data: booking[i]
-        })
-      }
-    }
-
 		if(id) {
 			getBooking(id)
 			.then(booking => {
+        let { date, timeslot, venue, address, event_type, start_time, set_duration, pa_provided, message } = booking;
 				console.log(booking);
-        setBookingData(booking);
+        setFormState({
+          date: date,
+          timeslot: timeslot,
+          venue: venue,
+          address: address,
+          eventType: event_type,
+          startTime: start_time,
+          setDuration: set_duration,
+          paProvided: pa_provided,
+          message: message
+				})
 			})
 		}
-    // eslint-disable-next-line react-hooks/exhaustive-deps
 	},[id])
 
   const handleSubmit = e => {
     e.preventDefault();
     if (id) {
-      updateBooking( {id: id, ...store.booking} )
+      updateBooking( {id: id, ...formState} )
         .then(()=> {
-          dispatch({type: 'updateBooking', data: {id: id, ...store.booking}})
+          dispatch({type: 'updateBooking', data: {id: id, ...formState}})
 				  history.push(`/bookings/${id}`)
         })
     } else {
-      createBooking({...store.booking, id: nextId(bookings)})
+      createBooking({...formState, id: 100})
         .then(booking => {
           dispatch({type: 'addBooking', data: booking})
           history.push('/bookings')
@@ -60,12 +72,26 @@ const NewBooking = () => {
   };
 
   const handleChange = e => {
-    let action = "set".concat(capitalize(e.target.id).split(" ").join(""));
-    dispatch({
-      type: action,
-      data: e.target.value
-    })
+    if (Object.values(eventTypes).includes(String(e.target.value))){
+      setFormState({
+        ...formState,
+        eventType: Object.keys(eventTypes).find(key => eventTypes[key] === e.target.value)
+      })
+    } else if (Object.values(timeslotOptions).includes(String(e.target.value))){
+      setFormState({
+        ...formState,
+        timeslot: Object.keys(timeslotOptions).find(key => timeslotOptions[key] === e.target.value)
+      })
+    }
+    else{
+      setFormState({
+        ...formState,
+        [e.target.id]: e.target.value
+      })
+    }
   }
+
+  console.log(formState)
   
   return(
     <FormDiv>
@@ -74,31 +100,31 @@ const NewBooking = () => {
         <StyledFormCol>
           <label htmlFor="date">Select date </label>
           <input 
-            type="date" 
+            type="date" value={date}
             min={new Date().toISOString().split("T")[0]} id="date" 
             onChange={handleChange}/>
           <label>Select timeslot </label>
-          <select name="timeslot" id="timeslot" onChange={handleChange}>
+          <select name="timeslot" id="timeslot" value={timeslot} onChange={handleChange}>
             <option disabled selected>-- select timeslot --</option>
-            {timeslotOptions.map((t) => {
-              return <option key={t}>{t}</option>;
+            {Object.entries(timeslotOptions).map((t) => {
+              return <option key={t[0]}>{t[1]}</option>;
             })}
           </select>
           <label>Venue </label>
-          <input type="text" name="venue" id="venue" onChange={handleChange}/>
+          <input type="text" name="venue" id="venue" value={venue} onChange={handleChange}/>
           <label>Address</label>
-          <input type="text" name="address" id="address" onChange={handleChange}/>
+          <input type="text" name="address" id="address" value={address} onChange={handleChange}/>
           <label>Event type</label>
-          <select name="eventType" id="eventType" onChange={handleChange}>
+          <select name="eventType" id="eventType" value={eventType} onChange={handleChange}>
             <option disabled selected> -- select event type -- </option>
-            {eventTypes.map((t) => {
-              return <option key={t}>{t}</option>;
+            {Object.entries(eventTypes).map((t) => {
+              return <option key={t[0]}>{t[1]}</option>;
             })}
           </select>
           <label>Start time</label>
-          <input type="text" name="startTime" id="startTime" onChange={handleChange}/>
+          <input type="text" name="startTime" id="startTime" value={startTime} onChange={handleChange}/>
           <label>Set duration(min): </label>
-          <select name="setDuration" id="setDuration" onChange={handleChange}>
+          <select name="setDuration" id="setDuration" value={setDuration} onChange={handleChange}>
             <option disabled selected> -- select duration -- </option>
             {setDurations.map((t) => {
               return <option key={t}>{t}</option>;
@@ -118,7 +144,7 @@ const NewBooking = () => {
         </StyledFormCol>
         <StyledFormCol>
           <label>Message</label>
-          <textarea name="message" rows="10" cols="30" id="message" onChange={handleChange}/>
+          <textarea name="message" rows="10" cols="30" id="message" value={message} onChange={handleChange}/>
           <FormSubmit type="submit" value={id ? "Update Booking" : "Book"} />
         </StyledFormCol>
       </StyledForm>

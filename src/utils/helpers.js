@@ -3,5 +3,6 @@ export const capitalize = string => {
 }
 
 export const nextId = (arr) => {
-  return arr[arr.length -1].id + 1
+  if (arr.length === 0) return 1;
+  return arr[arr.length -1].id + 1;
 }

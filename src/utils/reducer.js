@@ -1,11 +1,5 @@
 export const reducer = (state, action) => {
   switch (action.type) {
-    case "setAnchorEl": {
-      return {
-        ...state,
-        anchorEl: action.data
-      };
-    }
     case 'setLoggedInUser': {
 			return {
 				...state,
@@ -20,87 +14,6 @@ export const reducer = (state, action) => {
 					token: action.data
 				}
 			}
-		}
-    case "setDate": {
-      return {
-        ...state,
-        booking: {
-					...state.booking,
-					date: action.data
-				}
-      };
-    }
-    case "setTimeslot": {
-      return {
-        ...state,
-        booking: {
-					...state.booking,
-					timeslot: action.data
-				}
-      };
-    }
-    case "setVenue": {
-      return {
-        ...state,
-        booking: {
-					...state.booking,
-					venue: action.data
-				}
-      };
-    }
-    case "setAddress": {
-      return {
-        ...state,
-        booking: {
-					...state.booking,
-				  address: action.data
-				}
-      };
-    }
-    case "setEventType": {
-      return {
-        ...state,
-        booking: {
-					...state.booking,
-					eventType: action.data
-				}
-      };
-    }
-    case "setStartTime": {
-      return {
-        ...state,
-        booking: {
-					...state.booking,
-					startTime: action.data
-				}
-      };
-    }
-    case "setSetDuration": {
-      return {
-        ...state,
-        booking: {
-					...state.booking,
-					setDuration: action.data
-				}
-      };
-    }
-    case "setPaProvided": {
-      return {
-        ...state,
-        booking: {
-					...state.booking,
-					paProvided: action.data
-				}
-      };
-    }
-    case "setMessage": {
-      return {
-        ...state,
-        booking: {
-					...state.booking,
-					message: action.data
-				}
-      };
     }
     case 'setFirstName': {
       return {

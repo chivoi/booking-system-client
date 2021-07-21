@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react';
+import React, { useState, useReducer } from 'react';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 // utils
 import {reducer} from './utils/reducer';
@@ -19,23 +19,13 @@ import SignUp from './components/auth/SignUp'
 import LogOut from './components/auth/LogOut'
 
 function App() {
+
+  const [anchorEl, setAnchorEl] = useState(null);
   
   const initialState = {
-    anchorEl: null,
     loggedInUser: sessionStorage.getItem("email") || "",
     auth: {
       token: sessionStorage.getItem("token") || ""
-    },
-    booking: {
-      date: null,
-      timeslot: null,
-      venue: null,
-      address: null,
-      eventType: null,
-      startTime: null,
-      setDuration: null,
-      paProvided: null,
-      message: null
     },
     userDetails: {
       firstName: sessionStorage.getItem("firstName") || "",
@@ -48,26 +38,18 @@ function App() {
 
   const [store, dispatch] = useReducer(reducer, initialState);
 
-  const { anchorEl, loggedInUser } = store;
-
-  // debugging
+  const { loggedInUser } = store;
 
   // const formData = { date, timeslot, venue, address, eventType, startTime, setDuration, paProvided, message };
 
   console.log(store);
 
-  const handleMenuClick = (event) => {
-    dispatch({
-      type: "setAnchorEl",
-      data: event.currentTarget,
-    });
+  const handleMenuClick = (e) => {
+    setAnchorEl(e.currentTarget);
   };
   
   const handleMenuClose = () => {
-    dispatch({
-      type: "setAnchorEl",
-      data: null,
-    });
+    setAnchorEl(null);
   };
 
   return (

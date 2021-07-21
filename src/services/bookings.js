@@ -17,7 +17,17 @@ export async function getBooking(id) {
 }
 
 export async function createBooking(booking) {
-	const response = await bookingSystemAPI.post('/api/bookings');
+	const response = await bookingSystemAPI.post('/api/bookings', {
+		date: booking.date,
+		timeslot: parseInt(booking.timeslot) === 1 ? "one" : "two",
+		venue: booking.venue,
+		address: booking.address,
+		event_type: parseInt(booking.eventType),
+		start_time: booking.startTime,
+		set_duration: parseInt(booking.setDuration),
+		pa_provided: "false" ? false : true,
+		message: booking.message
+	});
 	return booking;
 };
 
