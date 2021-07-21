@@ -1,8 +1,20 @@
 import axios from 'axios';
 
+export const setApiUrl = () => {
+  if (process.env.NODE_ENV === "production") {
+    return 'https://alex-velasco-book-staging.herokuapp.com'
+  };
+
+  if (process.env.NODE_ENV === "development") {
+    return process.env.REACT_APP_API_URL || "http://localhost:8000"
+  }
+}
+
+const apiUrl = setApiUrl();
+
+
 const bookingSystemAPI = axios.create({
-  // baseURL: 'http://localhost:3000'
-  baseURL: 'https://alex-velasco-book-staging.herokuapp.com'
+  baseURL: apiUrl
 })
 
 bookingSystemAPI.interceptors.request.use(req => {
