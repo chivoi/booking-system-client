@@ -2,9 +2,15 @@ import bookingSystemAPI from '../config/api';
 
 export async function getBookings() {
 	const response = await bookingSystemAPI.get('/api/bookings');
-	console.log(response);
+	console.log(response.data);
 	return response.data;
 };
+
+export async function getTimeslots() {
+	const response = await bookingSystemAPI.get('api/timeslots')
+	console.log(response.data);
+	return response.data
+}
 
 export async function getUserBookings() {
   const response = await bookingSystemAPI.get('/api/my_bookings');

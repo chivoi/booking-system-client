@@ -1,11 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import {useHistory, useParams} from 'react-router-dom';
 import {useGlobalContext} from '../utils/globalContext';
-import {getBooking, createBooking, updateBooking} from '../services/bookings';
+import {getBooking, createBooking, updateBooking, getTimeslots} from '../services/bookings';
 // styled
 import {FormDiv, StyledForm, StyledFormCol, RadioButtons, FormHeading, FormSubmit} from './styled/FormStyles'
 // utils
-// import {nextId} from '../utils/helpers';
+import {nextId} from '../utils/helpers';
 
 
 const NewBooking = () => {
@@ -14,8 +14,7 @@ const NewBooking = () => {
   const setDurations = [30, 35, 40, 45, 50, 60, 90, 120, 150, 180];
 
   const initialFormState = {
-		date: "",
-    timeslot: "",
+    timeslotId: "",
     venue: "",
     address: "",
     eventType: "",
@@ -25,8 +24,26 @@ const NewBooking = () => {
     message: ""
 	}
 
+  const [timeslots, setTimeslots] = useState({});
+
+  useEffect(() => {
+    getTimeslots()
+      .then(timeslots => {
+        setTimeslots(timeslots)
+      })
+      .catch(err => console.log(err))
+  }, [])
+
+  // const inititialDateTimeState = {
+  //   date: "",
+  //   time: ""
+  // }
+
   const [formState, setFormState] = useState(initialFormState);
-  const {date, timeslot, venue, address, eventType, startTime, setDuration, message } = formState;
+  // const [dateTimeState, setDateTimeState] = useState(inititialDateTimeState);
+  const {venue, address, eventType, startTime, setDuration, message } = formState;
+  // const {date, time} = dateTimeState;
+
   const { store, dispatch } = useGlobalContext();
   const {bookings} = store;
   let history = useHistory();
@@ -36,11 +53,10 @@ const NewBooking = () => {
 		if(id) {
 			getBooking(id)
 			.then(booking => {
-        let { date, timeslot, venue, address, event_type, start_time, set_duration, pa_provided, message } = booking;
+        let { timeslot_id, venue, address, event_type, start_time, set_duration, pa_provided, message } = booking;
 				console.log(booking);
         setFormState({
-          date: date,
-          timeslot: timeslot,
+          timeslotId: timeslot_id,
           venue: venue,
           address: address,
           eventType: event_type,
@@ -62,7 +78,7 @@ const NewBooking = () => {
 				  history.push(`/bookings/${id}`)
         })
     } else {
-      createBooking({...formState, id: 100})
+      createBooking({...formState, id: nextId(bookings)})
         .then(booking => {
           dispatch({type: 'addBooking', data: booking})
           history.push('/bookings')
