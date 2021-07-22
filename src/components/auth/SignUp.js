@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {useHistory} from 'react-router-dom';
 // utils
 import {signUp} from '../../services/auth';
-import {useUserContext} from '../../utils/userContext';
+import {useGlobalContext} from '../../utils/globalContext';
 // styled
 import {FormDiv, StyledForm, FormHeading, FormSubmit} from '../styled/SignUpFormStyles'
 
@@ -18,7 +18,7 @@ const SignUp = () => {
   const [formState, setFormState] = useState(initialFormState);
   const { first_name, last_name, phone_num, email, password, password_confirmation } = formState;
 
-  const {dispatch} = useUserContext();
+  const {dispatch} = useGlobalContext();
   // const {firstName, lastName, phoneNum, loggedInUser} = store;
   let history = useHistory();
 

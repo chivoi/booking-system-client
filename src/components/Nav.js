@@ -1,6 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { useUserContext } from "../utils/userContext";
+import { useGlobalContext } from "../utils/globalContext";
 import { Button, Menu, MenuItem } from "@material-ui/core";
 import AccountBoxRoundedIcon from '@material-ui/icons/AccountBoxRounded';
 // styled
@@ -8,7 +8,7 @@ import { StyledNav, StyledNavP } from "./styled/StyledNav";
 
 const Nav = ({anchorEl, handleMenuClick, handleMenuClose}) => {
 
-  const store = useUserContext();
+  const store = useGlobalContext();
 
   const {loggedInUser, isAdmin} = store.store;
 

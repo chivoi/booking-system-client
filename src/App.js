@@ -2,7 +2,7 @@ import React, { useState, useReducer } from 'react';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 // utils
 import {reducer} from './utils/reducer';
-import { UserContext } from './utils/userContext';
+import { GlobalContext } from './utils/globalContext';
 // styles
 import './App.css';
 // components
@@ -40,8 +40,6 @@ function App() {
 
   const { loggedInUser } = store;
 
-  // const formData = { date, timeslot, venue, address, eventType, startTime, setDuration, paProvided, message };
-
   console.log(store);
 
   const handleMenuClick = (e) => {
@@ -54,7 +52,7 @@ function App() {
 
   return (
     <>
-      <UserContext.Provider value={{store,dispatch}}>
+      <GlobalContext.Provider value={{store,dispatch}}>
         <Router>
           <Nav anchorEl={anchorEl} handleMenuClick={handleMenuClick} handleMenuClose={handleMenuClose} />
           <Switch>
@@ -72,7 +70,7 @@ function App() {
 						<Route exact path='/sign-up' component={SignUp}></Route>
           </Switch>
         </Router>
-      </UserContext.Provider>
+      </GlobalContext.Provider>
     </>
   );
 }

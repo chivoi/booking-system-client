@@ -1,11 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import {useHistory, useParams} from 'react-router-dom';
-import {useUserContext} from '../utils/userContext';
+import {useGlobalContext} from '../utils/globalContext';
 import {getBooking, createBooking, updateBooking} from '../services/bookings';
 // styled
 import {FormDiv, StyledForm, StyledFormCol, RadioButtons, FormHeading, FormSubmit} from './styled/FormStyles'
 // utils
-import {nextId} from '../utils/helpers';
+// import {nextId} from '../utils/helpers';
 
 
 const NewBooking = () => {
@@ -27,7 +27,7 @@ const NewBooking = () => {
 
   const [formState, setFormState] = useState(initialFormState);
   const {date, timeslot, venue, address, eventType, startTime, setDuration, message } = formState;
-  const { store, dispatch } = useUserContext();
+  const { store, dispatch } = useGlobalContext();
   const {bookings} = store;
   let history = useHistory();
 	let {id} = useParams();

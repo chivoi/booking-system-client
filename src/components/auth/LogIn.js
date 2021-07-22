@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {useHistory} from 'react-router-dom';
-import { useUserContext } from '../../utils/userContext';
+import { useGlobalContext } from '../../utils/globalContext';
 import { logIn } from '../../services/auth'
 
 const LogIn = () => {
@@ -12,7 +12,7 @@ const LogIn = () => {
 
   let history = useHistory();
 
-  const { dispatch } = useUserContext();
+  const { dispatch } = useGlobalContext();
 
   const handleChange = e => {
     setFormState({

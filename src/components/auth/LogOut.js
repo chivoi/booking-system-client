@@ -1,23 +1,19 @@
 import React, {useEffect} from 'react';
 import { logOut } from '../../services/auth';
-import { useUserContext } from '../../utils/userContext';
-// utils
-import { capitalize } from '../../utils/helpers';
+import { useGlobalContext } from '../../utils/globalContext';
 
 const LogOut = () => {
-  const { store, dispatch } = useUserContext();
+  const { dispatch } = useGlobalContext();
 
   useEffect( ()=>{
     logOut();
-    const clearStore = store => {
-      for (let i in store){
-        let action = "set".concat(capitalize(i).split(" ").join(""));
-        dispatch({
-          type: action,
-          data: ""})
-      }
-    }
-    clearStore(store);
+    dispatch({ type: "setLoggedInUser", data: ""})
+    dispatch({ type: "setToken", data: ""})
+    dispatch({ type: "setFirstName", data: ""})
+    dispatch({ type: "setLastName", data: ""})
+    dispatch({ type: "setPhoneNum", data: ""})
+    dispatch({ type: "setIsAdmin", data: ""})
+    dispatch({ type: "setBookings", data: []})
     // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]) 
 
