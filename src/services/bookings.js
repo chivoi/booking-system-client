@@ -8,7 +8,6 @@ export async function getBookings() {
 
 export async function getTimeslots() {
 	const response = await bookingSystemAPI.get('api/timeslots')
-	console.log(response.data);
 	return response.data
 }
 
@@ -24,8 +23,7 @@ export async function getBooking(id) {
 
 export async function createBooking(booking) {
 	const response = await bookingSystemAPI.post('/api/bookings', {
-		date: booking.date,
-		timeslot: parseInt(booking.timeslot) === 1 ? "one" : "two",
+		timeslot_id: parseInt(booking.timeslotId),
 		venue: booking.venue,
 		address: booking.address,
 		event_type: parseInt(booking.eventType),

@@ -24,7 +24,7 @@ const NewBooking = () => {
     message: ""
 	}
 
-  const [timeslots, setTimeslots] = useState({});
+  const [timeslots, setTimeslots] = useState([]);
 
   useEffect(() => {
     getTimeslots()
@@ -34,15 +34,9 @@ const NewBooking = () => {
       .catch(err => console.log(err))
   }, [])
 
-  // const inititialDateTimeState = {
-  //   date: "",
-  //   time: ""
-  // }
-
   const [formState, setFormState] = useState(initialFormState);
-  // const [dateTimeState, setDateTimeState] = useState(inititialDateTimeState);
-  const {venue, address, eventType, startTime, setDuration, message } = formState;
-  // const {date, time} = dateTimeState;
+  
+  const {timeslotId, venue, address, eventType, startTime, setDuration, message } = formState;
 
   const { store, dispatch } = useGlobalContext();
   const {bookings} = store;
@@ -78,6 +72,7 @@ const NewBooking = () => {
 				  history.push(`/bookings/${id}`)
         })
     } else {
+      console.log({...formState, id: nextId(bookings)})
       createBooking({...formState, id: nextId(bookings)})
         .then(booking => {
           dispatch({type: 'addBooking', data: booking})
@@ -93,10 +88,10 @@ const NewBooking = () => {
         ...formState,
         eventType: Object.keys(eventTypes).find(key => eventTypes[key] === e.target.value)
       })
-    } else if (Object.values(timeslotOptions).includes(String(e.target.value))){
+    } else if (e.target.name === "timeslot") {
       setFormState({
         ...formState,
-        timeslot: Object.keys(timeslotOptions).find(key => timeslotOptions[key] === e.target.value)
+        timeslotId: e.target.value.split(" ")[0]
       })
     }
     else{
@@ -108,23 +103,18 @@ const NewBooking = () => {
   }
 
   console.log(formState)
-  
-  return(
+
+  return( 
     <FormDiv>
       <FormHeading>New Booking</FormHeading>
       <StyledForm onSubmit={handleSubmit}>
         <StyledFormCol>
-          <label htmlFor="date">Select date </label>
-          <input 
-            type="date" value={date}
-            min={new Date().toISOString().split("T")[0]} id="date" 
-            onChange={handleChange}/>
-          <label>Select timeslot </label>
-          <select name="timeslot" id="timeslot" value={timeslot} onChange={handleChange}>
+          <label htmlFor="date">Select timeslot</label>
+          <select name="timeslot" id="timeslotId" value={timeslotId} onChange={handleChange}>
             <option disabled selected>-- select timeslot --</option>
-            {Object.entries(timeslotOptions).map((t) => {
-              return <option key={t[0]}>{t[1]}</option>;
-            })}
+            {timeslots.map(t => {
+              return <option key={t.id}>{t.id} - {t.date}, {t.half_day === "one" ? "08:00-16:00" : "17:00-23:00" }</option>;
+            } )}
           </select>
           <label>Venue </label>
           <input type="text" name="venue" id="venue" value={venue} onChange={handleChange}/>
