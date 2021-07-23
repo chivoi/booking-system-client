@@ -1,8 +1,9 @@
-import React, { useState, useReducer } from 'react';
+import React, { useState, useReducer, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 // utils
 import {reducer} from './utils/reducer';
 import { GlobalContext } from './utils/globalContext';
+import { getBookings, getUserBookings } from './services/bookings';
 // styles
 import './App.css';
 // components
@@ -40,7 +41,29 @@ function App() {
 
   const { loggedInUser } = store;
 
-  console.log(store);
+  // pull gookings into the global state
+
+  useEffect(() => {
+    if (loggedInUser.isAdmin) {
+      getBookings()
+        .then(bookings => {
+          dispatch({
+            type: 'setBookings',
+            data: bookings
+          })
+        })
+    } else {
+      getUserBookings()
+      .then(bookings => {
+        dispatch({
+          type: 'setBookings',
+          data: bookings
+        })
+      })
+    }
+  }, [loggedInUser.isAdmin, loggedInUser])
+
+  // console.log(store);
 
   const handleMenuClick = (e) => {
     setAnchorEl(e.currentTarget);

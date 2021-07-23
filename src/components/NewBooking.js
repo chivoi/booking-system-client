@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {useHistory, useParams} from 'react-router-dom';
 import {useGlobalContext} from '../utils/globalContext';
-import {getBooking, createBooking, updateBooking, getTimeslots} from '../services/bookings';
+import {getBooking, createBooking, updateBooking, getTimeslots, getBookings, getUserBookings} from '../services/bookings';
 // styled
 import {FormDiv, StyledForm, StyledFormCol, RadioButtons, FormHeading, FormSubmit} from './styled/FormStyles'
 // utils
@@ -9,9 +9,13 @@ import {nextId} from '../utils/helpers';
 
 
 const NewBooking = () => {
-  const timeslotOptions = {1: "08:00 - 16:00", 2: "17:00 - 23:00"};
   const eventTypes = {1: "Wedding", 2: "Party", 3: "Reception", 4: "Corporate", 5: "Festival", 6: "Other"};
   const setDurations = [30, 35, 40, 45, 50, 60, 90, 120, 150, 180];
+
+  const { store, dispatch } = useGlobalContext();
+  const {bookings, loggedInUser} = store;
+  let history = useHistory();
+	let {id} = useParams();
 
   const initialFormState = {
     timeslotId: "",
@@ -26,6 +30,8 @@ const NewBooking = () => {
 
   const [timeslots, setTimeslots] = useState([]);
 
+  // get the timeslots
+
   useEffect(() => {
     getTimeslots()
       .then(timeslots => {
@@ -37,11 +43,6 @@ const NewBooking = () => {
   const [formState, setFormState] = useState(initialFormState);
   
   const {timeslotId, venue, address, eventType, startTime, setDuration, message } = formState;
-
-  const { store, dispatch } = useGlobalContext();
-  const {bookings} = store;
-  let history = useHistory();
-	let {id} = useParams();
 
   useEffect(() => {
 		if(id) {
@@ -72,14 +73,17 @@ const NewBooking = () => {
 				  history.push(`/bookings/${id}`)
         })
     } else {
-      console.log({...formState, id: nextId(bookings)})
       createBooking({...formState, id: nextId(bookings)})
         .then(booking => {
           dispatch({type: 'addBooking', data: booking})
+          console.log(booking)
+          console.log(bookings)
           history.push('/bookings')
         })
         .catch(err => console.log(err))
     }
+    console.log(formState)
+    console.log(store)
   };
 
   const handleChange = e => {
@@ -101,8 +105,6 @@ const NewBooking = () => {
       })
     }
   }
-
-  console.log(formState)
 
   return( 
     <FormDiv>
