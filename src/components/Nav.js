@@ -10,7 +10,9 @@ const Nav = ({anchorEl, handleMenuClick, handleMenuClose}) => {
 
   const store = useGlobalContext();
 
-  const {loggedInUser, isAdmin} = store.store;
+  const {loggedInUser, userDetails} = store.store;
+
+  const {isAdmin} = userDetails;
 
   return(
     <StyledNav>

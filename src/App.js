@@ -71,8 +71,9 @@ function App() {
             <Route exact path="/" 
               render = {props => (loggedInUser ? <MyBookings /> : <LogIn />)} />
             <Route exact path="/new" render={props => <NewBooking {...props} timeslots={timeslots} />} />
-            <Route exact path="/bookings" render={props => <MyBookings {...props} />} />
-            <Route exact path="/bookings/:id" render={props => <SingleBooking />} />
+            <Route exact path="/bookings" render={props => <MyBookings />} />
+            <Route exact path="/bookings/:id" component={SingleBooking} />
+            <Route exact path="/bookings/update/:id" component={NewBooking} />
             <Route exact path="/details" render={props => <MyDetails />} />
             <Route exact path="/log-out" render={props => <LogOut />} />
             <Route exact path="/availability" render={props => <Availability />} />

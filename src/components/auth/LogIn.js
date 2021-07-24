@@ -10,9 +10,10 @@ const LogIn = () => {
   }
   const [formState, setFormState] = useState(initialFormState)
 
+  
   let history = useHistory();
-
-  const { dispatch } = useGlobalContext();
+  
+  const { dispatch, store } = useGlobalContext();
 
   const handleChange = e => {
     setFormState({
@@ -36,8 +37,8 @@ const LogIn = () => {
         dispatch({type: 'setFirstName', data: first_name})
         dispatch({type: 'setLastName', data: last_name})
         dispatch({type: 'setPhoneNum', data: phone_num})
-        dispatch({type: 'setIsAdmin', data: is_admin})
-        history.push('/new')
+        dispatch({type: 'setIsAdmin', data: is_admin}) 
+        history.push('/bookings')
 		  })
 		  .catch((error) => console.log(error))
   }

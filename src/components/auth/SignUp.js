@@ -19,7 +19,7 @@ const SignUp = () => {
   const { first_name, last_name, phone_num, email, password, password_confirmation } = formState;
 
   const {dispatch} = useGlobalContext();
-  // const {firstName, lastName, phoneNum, loggedInUser} = store;
+  
   let history = useHistory();
 
   const handleChange = e => {
