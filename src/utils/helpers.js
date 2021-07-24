@@ -6,3 +6,10 @@ export const nextId = (arr) => {
   if (arr.length === 0) return 1;
   return arr[arr.length -1].id + 1;
 }
+
+export const formatDate = date => {
+  const dateArray = date.split("-");
+  const months = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", 
+  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
+  return `${dateArray[2]} ${months[dateArray[1].substr(1)-1]} ${dateArray[0]}`
+}

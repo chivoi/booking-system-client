@@ -3,7 +3,11 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 // utils
 import {reducer} from './utils/reducer';
 import { GlobalContext } from './utils/globalContext';
-import { getBookings, getUserBookings } from './services/bookings';
+import { 
+  getBookings, 
+  getUserBookings, 
+  getTimeslots, 
+  getBlockedTimeslots } from './services/bookings';
 // styles
 import './App.css';
 // components
@@ -22,6 +26,8 @@ import LogOut from './components/auth/LogOut'
 function App() {
 
   const [anchorEl, setAnchorEl] = useState(null);
+  const [timeslots, setTimeslots] = useState([]);
+  const [blockedTimeslots, setBlockedTimeslots] = useState([]);
   
   const initialState = {
     loggedInUser: sessionStorage.getItem("email") || "",
@@ -39,10 +45,31 @@ function App() {
 
   const [store, dispatch] = useReducer(reducer, initialState);
 
+  // get and set  available timeslots
+
+  useEffect(() => {
+    getTimeslots()
+      .then(timeslots => {
+        setTimeslots(timeslots)
+      })
+      .catch(err => console.log(err))
+  }, [])
+
+  // get and set blocked timeslots
+
+  useEffect(() => {
+    getBlockedTimeslots()
+      .then(timeslots => {
+        setBlockedTimeslots(timeslots)
+      })
+      .catch(err => console.log(err))
+  }, [])
+
+  // console.log("from App");
+  // console.log(blockedTimeslots);
   const { loggedInUser } = store;
 
-  // pull gookings into the global state
-
+  // pull bookings into the global state
   useEffect(() => {
     if (loggedInUser.isAdmin) {
       getBookings()
@@ -81,8 +108,8 @@ function App() {
           <Switch>
             <Route exact path="/" 
               render = {props => (loggedInUser ? <MyBookings /> : <LogIn />)} />
-            <Route exact path="/new" render={props => <NewBooking />} />
-            <Route exact path="/bookings" render={props => <MyBookings />} />
+            <Route exact path="/new" render={props => <NewBooking {...props} timeslots={timeslots} />} />
+            <Route exact path="/bookings" render={props => <MyBookings {...props} blockedTimeslots={blockedTimeslots}  />} />
             <Route exact path="/bookings/:id" render={props => <SingleBooking />} />
             <Route exact path="/details" render={props => <MyDetails />} />
             <Route exact path="/log-out" render={props => <LogOut />} />

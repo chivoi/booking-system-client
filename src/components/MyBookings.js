@@ -1,15 +1,18 @@
 import React from 'react'
 import { useGlobalContext } from '../utils/globalContext';
+import { formatDate, capitalize } from '../utils/helpers';
 
-const MyBookings = () => {
+const MyBookings = ({blockedTimeslots} ) => {
 
   const {store} = useGlobalContext();
 
-  // get timeslots for displayed bookings from the table
-  // display date from the timeslot based on timeslot_id in the booking
-  // figure out how to display in columns
+  // console.log("from MyBookings");
+  // console.log(blockedTimeslots);
 
-  console.log(store.bookings)
+  const findBlockedTimeslotById = id => {  
+    const timeslot =  blockedTimeslots.find(timeslot => timeslot.id === id)
+    return formatDate(timeslot.date);
+  }
 
   return(
     <>
@@ -17,7 +20,7 @@ const MyBookings = () => {
       <p>Show all / Show future bookings/ Show past bookings</p>
       <div>
         {store.bookings.map(booking => {
-          return <div key={booking.id}>{booking.timeslot_id}, {booking.venue} - {booking.event_type}, {booking.duration} min</div>
+          return <div key={booking.id}>{findBlockedTimeslotById(booking.timeslot_id) }, {booking.venue} - {capitalize(booking.event_type) }, {booking.duration} min</div>
         })}
       </div>
     </>

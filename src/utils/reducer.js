@@ -57,6 +57,12 @@ export const reducer = (state, action) => {
         bookings: action.data
       }
     }
+    case 'setTimeSlots': {
+      return {
+        ...state,
+        timeslots: action.data
+      }
+    }
     case 'updateBooking': {
 			const booking = state.bookings.find((booking) => booking.id == action.data.id)
 			const rest = state.bookings.filter((booking) => booking.id != action.data.id)
