@@ -27,6 +27,10 @@ const LogIn = () => {
       .then(({username, jwt, first_name, last_name, phone_num, is_admin}) => {
         sessionStorage.setItem("token", jwt);
         sessionStorage.setItem("email", username);
+        sessionStorage.setItem("firstName", first_name);
+        sessionStorage.setItem("lastName", last_name);
+        sessionStorage.setItem("phoneNum", phone_num);
+        sessionStorage.setItem("isAdmin", is_admin);
         dispatch({type: 'setLoggedInUser', data: username})
         dispatch({type: 'setToken', data: jwt})
         dispatch({type: 'setFirstName', data: first_name})
