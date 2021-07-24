@@ -11,9 +11,10 @@ const SingleBooking = () => {
   const {id} = useParams();
   const [timeslot, setTimeslot] = useState("");
   const [client, setClient] = useState("");
-  // let history = useHistory();
-  // const {store, dispatch} = useGlobalContext;
-  // const {loggedInUser} = store;
+  let history = useHistory();
+  const {store, dispatch} = useGlobalContext();
+  console.log(store);
+  const {userDetails} = store;
 
   useEffect(() => {
     getBooking(id)
@@ -29,33 +30,35 @@ const SingleBooking = () => {
   }, [booking])
   
   useEffect(() => {
-    getSingleClient(booking.user_id)
-    .then(client => setClient(client) )
-    .catch(e => console.log(e))
+    if (userDetails.isAdmin === "true") {
+      getSingleClient(booking.user_id)
+      .then(client => setClient(client) )
+      .catch(e => console.log(e))
+    }
   }, [booking])
 
-  // console.log(booking);
-  // console.log(timeslot);
+  console.log(booking);
+  console.log(timeslot);
   // console.log(client);
+
+  const handleDelete = () => {
+    deleteBooking(id)
+      .then(() => {
+        dispatch({type: "deleteBooking", data: id})
+        history.push('/bookings')
+      })
+  }
 
   if (!booking) return null;
   if (!timeslot) return null;
-  if (!client) return null;
-
-  // const handleDelete = () => {
-  //   deleteBooking(id)
-  //     .then(() => {
-  //       dispatch({type: "deleteBooking", data: id})
-  //       history.push('/bookings')
-  //     })
-  // }
+  // if (!client) return null;
 
   return(
     <div>
       <h1>{booking.venue}, {formatDate(timeslot.date)}</h1>
       <p>Back to My Bookings</p>
       <div>
-        <p>Made by: {client.first_name} {client.last_name}</p>
+        {userDetails.isAdmin === "true" && <p>Made by: {client.first_name} {client.last_name}</p>}
         <p>Timeslot: {formatDate(timeslot.date)}, {timeslot.half_day === 1 ? "08:00 - 16:00" : "17:00 - 23:00"} </p>
         <p>Venue: {booking.venue}</p>
         <p>Address: {booking.address}</p>
@@ -67,6 +70,10 @@ const SingleBooking = () => {
       <div>
         <p>Message:</p>
         <div>{booking.message}</div>
+      </div>
+      <div>
+        <button onClick={()=> history.push(`/bookings/update/${id}`)} >Update</button>
+        <button onClick={handleDelete}>Delete</button>
       </div>
     </div>
   )

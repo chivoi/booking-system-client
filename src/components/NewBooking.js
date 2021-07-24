@@ -1,14 +1,14 @@
 import React, {useState, useEffect} from 'react';
 import {useHistory, useParams} from 'react-router-dom';
 import {useGlobalContext} from '../utils/globalContext';
-import {getBooking, createBooking, updateBooking} from '../services/bookings';
+import {getTimeslots, getBooking, createBooking, updateBooking} from '../services/bookings';
 // styled
 import {FormDiv, StyledForm, StyledFormCol, RadioButtons, FormHeading, FormSubmit} from './styled/FormStyles'
 // utils
 import {nextId} from '../utils/helpers';
 
 
-const NewBooking = ({timeslots }) => {
+const NewBooking = () => {
   const eventTypes = {1: "Wedding", 2: "Party", 3: "Reception", 4: "Corporate", 5: "Festival", 6: "Other"};
   const setDurations = [30, 35, 40, 45, 50, 60, 90, 120, 150, 180];
 
@@ -32,6 +32,18 @@ const NewBooking = ({timeslots }) => {
   
   const {timeslotId, venue, address, eventType, startTime, setDuration, message } = formState;
 
+  const [timeslots, setTimeslots] = useState([]);
+
+  // get and set  available timeslots
+
+  useEffect(() => {
+    getTimeslots()
+      .then(timeslots => {
+        setTimeslots(timeslots)
+      })
+      .catch(err => console.log(err))
+  }, [])
+
   useEffect(() => {
 		if(id) {
 			getBooking(id)
@@ -51,6 +63,8 @@ const NewBooking = ({timeslots }) => {
 			})
 		}
 	},[id])
+
+  console.log(formState)
 
   const handleSubmit = e => {
     e.preventDefault();

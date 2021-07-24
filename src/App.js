@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 // utils
 import {reducer} from './utils/reducer';
 import { GlobalContext } from './utils/globalContext';
-import { getTimeslots} from './services/bookings';
 // styles
 import './App.css';
 // components
@@ -13,7 +12,7 @@ import MyBookings from './components/MyBookings'
 import SingleBooking from './components/SingleBooking'
 import MyDetails from './components/MyDetails'
 import Availability from './components/Availability'
-import Clients  from './components/my-clients/index'
+import Clients  from './components/MyClients'
 import ClientCard  from './components/my-clients/ClientCard'
 import LogIn from './components/auth/LogIn'
 import SignUp from './components/auth/SignUp'
@@ -22,7 +21,6 @@ import LogOut from './components/auth/LogOut'
 function App() {
 
   const [anchorEl, setAnchorEl] = useState(null);
-  const [timeslots, setTimeslots] = useState([]);
   
   const initialState = {
     loggedInUser: sessionStorage.getItem("email") || "",
@@ -39,16 +37,6 @@ function App() {
   }
 
   const [store, dispatch] = useReducer(reducer, initialState);
-
-  // get and set  available timeslots
-
-  useEffect(() => {
-    getTimeslots()
-      .then(timeslots => {
-        setTimeslots(timeslots)
-      })
-      .catch(err => console.log(err))
-  }, [])
 
   const { loggedInUser } = store;
 
@@ -70,7 +58,7 @@ function App() {
           <Switch>
             <Route exact path="/" 
               render = {props => (loggedInUser ? <MyBookings /> : <LogIn />)} />
-            <Route exact path="/new" render={props => <NewBooking {...props} timeslots={timeslots} />} />
+            <Route exact path="/new" render={props => <NewBooking />} />
             <Route exact path="/bookings" render={props => <MyBookings />} />
             <Route exact path="/bookings/:id" component={SingleBooking} />
             <Route exact path="/bookings/update/:id" component={NewBooking} />

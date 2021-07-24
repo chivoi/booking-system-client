@@ -13,3 +13,8 @@ export const formatDate = date => {
   "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
   return `${dateArray[2]} ${months[dateArray[1].substr(1)-1]} ${dateArray[0]}`
 }
+
+export const findDateById = (id, objects) => {
+  let instance = objects.find(i => i.id === id);
+  return formatDate(instance.date);
+}

@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react'
+// utils
 import { useGlobalContext } from '../utils/globalContext';
-import { formatDate, capitalize } from '../utils/helpers';
+import { formatDate, capitalize, findDateById } from '../utils/helpers';
 import { getBlockedTimeslots, getBookings, getUserBookings } from '../services/bookings';
 //styled
 import { BookingDiv, BookingsList, FilterLinks, Col1, Col2 } from './styled/BookingsListStyles';
@@ -23,11 +24,6 @@ const MyBookings = () => {
   // console.log("from MyBookings");
   // console.log(blockedTimeslots);
   // console.log(store.bookings)
-  
-  const findBlockedTimeslotById = id => {
-    const timeslot = blockedTimeslots.find(timeslot => timeslot.id === id);
-    return formatDate(timeslot.date);
-  }
 
   // pull bookings into the global state
   useEffect(() => {
@@ -49,9 +45,12 @@ const MyBookings = () => {
         })
       })
     }
-  }, [userDetails.isAdmin, loggedInUser])
+  }, [])
+
+  console.log("WHOOOOA", blockedTimeslots);
 
   if (!store.bookings) return null;
+  if (!blockedTimeslots) return null;
 
   return(
     <>
@@ -59,7 +58,7 @@ const MyBookings = () => {
       <FilterLinks>All bookings / Past bookings / Future bookings</FilterLinks>
       <BookingsList>
         {store.bookings.map(booking => {
-          return <BookingDiv key={booking.id}><Col1>{findBlockedTimeslotById(booking.timeslot_id) }, {booking.venue}</Col1><Col2>{capitalize(booking.event_type) }, {booking.duration} min </Col2></BookingDiv>
+          return <BookingDiv key={booking.id}><Col1>{findDateById(booking.timeslot_id, blockedTimeslots) }, {booking.venue}</Col1><Col2>{capitalize(booking.event_type) }, {booking.duration} min </Col2></BookingDiv>
         })}
       </BookingsList>
     </>
