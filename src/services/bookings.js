@@ -22,6 +22,16 @@ export async function getBlockedTimeslots() {
 	return response.data
 }
 
+export async function getClients() {
+	const response = await bookingSystemAPI.get('api/clients')
+	return response.data
+}
+
+export async function getSingleClient(id) {
+	const response = await bookingSystemAPI.get(`api/clients/${id}`)
+	return response.data
+}
+
 export async function getUserBookings() {
   const response = await bookingSystemAPI.get('/api/my_bookings');
   return response.data;

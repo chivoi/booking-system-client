@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
-import {useParams,useHistory} from 'react-router-dom';
-import {getBooking, getSingleTimeslot} from '../services/bookings';
+import {useParams, useHistory} from 'react-router-dom';
+import {getBooking, getSingleTimeslot, getSingleClient} from '../services/bookings';
 import {deleteBooking} from '../services/bookings';
 // utils
 import {useGlobalContext} from '../utils/globalContext';
@@ -10,6 +10,7 @@ const SingleBooking = () => {
   const [booking, setBooking] = useState({});
   const {id} = useParams();
   const [timeslot, setTimeslot] = useState("");
+  const [client, setClient] = useState("");
   // let history = useHistory();
   // const {store, dispatch} = useGlobalContext;
   // const {loggedInUser} = store;
@@ -27,10 +28,19 @@ const SingleBooking = () => {
     .catch(e => console.log(e))
   }, [booking])
   
-  console.log(booking);
-  console.log(timeslot);
+  useEffect(() => {
+    getSingleClient(booking.user_id)
+    .then(client => setClient(client) )
+    .catch(e => console.log(e))
+  }, [booking])
+
+  // console.log(booking);
+  // console.log(timeslot);
+  // console.log(client);
 
   if (!booking) return null;
+  if (!timeslot) return null;
+  if (!client) return null;
 
   // const handleDelete = () => {
   //   deleteBooking(id)
@@ -45,6 +55,7 @@ const SingleBooking = () => {
       <h1>{booking.venue}, {formatDate(timeslot.date)}</h1>
       <p>Back to My Bookings</p>
       <div>
+        <p>Made by: {client.first_name} {client.last_name}</p>
         <p>Timeslot: {formatDate(timeslot.date)}, {timeslot.half_day === 1 ? "08:00 - 16:00" : "17:00 - 23:00"} </p>
         <p>Venue: {booking.venue}</p>
         <p>Address: {booking.address}</p>

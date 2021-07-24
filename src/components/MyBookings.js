@@ -51,7 +51,7 @@ const MyBookings = () => {
     }
   }, [userDetails.isAdmin, loggedInUser])
 
-
+  if (!store.bookings) return null;
 
   return(
     <>
