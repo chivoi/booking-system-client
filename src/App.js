@@ -48,8 +48,18 @@ function App() {
 
   // pull bookings into the global state
   useEffect(() => {
-    if (userDetails.isAdmin) {
-      getBookings()
+    if (loggedInUser) {
+      if (userDetails.isAdmin) {
+        getBookings()
+          .then(bookings => {
+            sessionStorage.setItem("bookings", JSON.stringify(bookings) )
+            dispatch({
+              type: 'setBookings',
+              data: bookings
+            })
+          })
+      } else {
+        getUserBookings()
         .then(bookings => {
           sessionStorage.setItem("bookings", JSON.stringify(bookings) )
           dispatch({
@@ -57,15 +67,7 @@ function App() {
             data: bookings
           })
         })
-    } else {
-      getUserBookings()
-      .then(bookings => {
-        sessionStorage.setItem("bookings", JSON.stringify(bookings) )
-        dispatch({
-          type: 'setBookings',
-          data: bookings
-        })
-      })
+      }
     }
   }, [loggedInUser, userDetails.isAdmin])
 

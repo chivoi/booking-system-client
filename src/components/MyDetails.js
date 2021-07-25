@@ -13,12 +13,11 @@ const MyDetails = () => {
     history.push(`/sign-up`);
   }
 
-  // const handleDelete = () => {
-  //   deleteAccount()
-  //     .then(() => {history.push('/log-out')})
-  //     .catch(e => console.log(e))
-  //   return(<div> "The account has been deleted"</div>)
-  // }
+  const handleDelete = () => {
+    deleteAccount()
+      .then(() => {history.push('/log-out')})
+      .catch(e => console.log(e))
+  }
 
 
   return(
@@ -30,7 +29,7 @@ const MyDetails = () => {
       <p>Email: {store.loggedInUser}</p>
       <div>
         <button onClick={handleUpdate}>Update Details</button>
-        {/* <button onClick={handleDelete}>Delete Account</button> */}
+        <button onClick={handleDelete}>Delete Account</button>
       </div>
     </div>
   )

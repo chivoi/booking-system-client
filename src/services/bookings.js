@@ -98,5 +98,6 @@ export async function getUserDetails() {
 
 export async function deleteAccount() {
 	const response = await bookingSystemAPI.delete('/api/my_details');
-	return response.data;
+	console.log(response);
+	return "deleted";
 }
