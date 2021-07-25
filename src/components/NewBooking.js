@@ -125,11 +125,11 @@ const NewBooking = () => {
           </select>
           <label>Start time</label>
           <input type="text" name="startTime" id="startTime" value={startTime} onChange={handleChange}/>
-          <label>Set duration: </label>
+          <label>Set duration(min): </label>
           <select name="setDuration" id="setDuration" value={setDuration} onChange={handleChange}>
           <option value="" disabled={true} selected={true} >-- select set duration --</option>
             {setDurations.map((t) => {
-              return <option key={t}>{t} min</option>;
+              return <option key={t}>{t}</option>;
             })}
           </select>
           <RadioButtons>

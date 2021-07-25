@@ -1,7 +1,12 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
+import { store as notificationStore } from 'react-notifications-component';
+// utils
 import { deleteAccount } from '../services/bookings';
 import { useGlobalContext } from '../utils/globalContext';
+// styles
+import 'animate.css/animate.min.css';
+
 
 const MyDetails = () => {
 
@@ -15,10 +20,22 @@ const MyDetails = () => {
 
   const handleDelete = () => {
     deleteAccount()
-      .then(() => {history.push('/log-out')})
+      .then(() => {
+        history.push('/log-out')
+        notificationStore.addNotification({
+          title: "Account deleted.",
+          message: "Come back soon!",
+          type: "success",
+          insert: "top",
+          container: "top-right",
+          animationIn: ["animate__animated", "animate__fadeIn"],
+          animationOut: ["animate__animated", "animate__fadeOut"],
+          dismiss: {
+            duration: 2000
+          }
+        });})
       .catch(e => console.log(e))
   }
-
 
   return(
     <div>

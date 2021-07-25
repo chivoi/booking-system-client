@@ -4,7 +4,7 @@ import {getBooking, getSingleTimeslot, getSingleClient} from '../services/bookin
 import {deleteBooking} from '../services/bookings';
 // utils
 import {useGlobalContext} from '../utils/globalContext';
-import {formatDate, capitalize} from '../utils/helpers';
+import {formatDate} from '../utils/helpers';
 
 const SingleBooking = () => {
   const [booking, setBooking] = useState({});

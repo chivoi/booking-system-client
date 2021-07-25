@@ -57,7 +57,7 @@ export const reducer = (state, action) => {
         bookings: action.data
       }
     }
-    case 'setTimeSlots': {
+    case 'setTimeslots': {
       return {
         ...state,
         timeslots: {

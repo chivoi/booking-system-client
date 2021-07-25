@@ -13,7 +13,7 @@ const LogIn = () => {
   
   let history = useHistory();
   
-  const { dispatch, store } = useGlobalContext();
+  const { dispatch} = useGlobalContext();
 
   const handleChange = e => {
     setFormState({

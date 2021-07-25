@@ -1,10 +1,12 @@
 import React, { useState, useReducer, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import ReactNotification from 'react-notifications-component';
 // utils
 import {reducer} from './utils/reducer';
 import { GlobalContext } from './utils/globalContext';
 import { getUserBookings, getBookings, getBlockedTimeslots, getTimeslots } from './services/bookings';
 // styles
+import 'react-notifications-component/dist/theme.css'
 import './App.css';
 // components
 import Nav from './components/Nav'
@@ -97,7 +99,7 @@ function App() {
           })
       })
       .catch(err => console.log(err))
-  }, [])
+  }, [bookings, loggedInUser])
 
   const handleMenuClick = (e) => {
     setAnchorEl(e.currentTarget);
@@ -109,6 +111,7 @@ function App() {
 
   return (
     <>
+      <ReactNotification />
       <GlobalContext.Provider value={{store,dispatch}}>
         <Router>
           <Nav anchorEl={anchorEl} handleMenuClick={handleMenuClick} handleMenuClose={handleMenuClose} />
