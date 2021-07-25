@@ -19,3 +19,22 @@ export const findDateById = (id, objects) => {
   let instance = objects.find(i => i.id === id);
   return formatDate(instance.date);
 }
+
+export const paginate = (array, currentPage, resultsPerPage) => {
+  let page = currentPage || 1,
+	perPage = resultsPerPage || 28,
+	offset = (page - 1) * perPage,
+
+	paginatedItems = array.slice(offset).slice(0, resultsPerPage),
+	totalPages = Math.ceil(array.length / perPage);
+
+	return {
+		page: page,
+		perPage: perPage,
+		prePage: page - 1 ? page - 1 : null,
+		nextPage: (totalPages > page) ? page + 1 : null,
+		total: array.length,
+		totalPages: totalPages,
+		data: paginatedItems
+	};
+}

@@ -1,6 +1,7 @@
 import React from 'react';
 // utils
 import {useGlobalContext} from '../utils/globalContext';
+import {paginate} from '../utils/helpers';
 // styled
 import {Calendar, Header, MonthBox, DateGrid, WeekBox, DayBox, TimeslotBox, Date, MonthNav} from './styled/CalendarStyles';
 // material ui styles
@@ -12,10 +13,11 @@ const Availability = () => {
   const {store} = useGlobalContext();
   const {timeslots} = store;
   const allTimeslots = timeslots.blocked.concat(timeslots.available).sort((f,s) => f.id-s.id );
+  const paginated = paginate(allTimeslots, 1, 28);
 
-  
+  console.log(paginated);
 
-  console.log(allTimeslots)
+  // somehow delete all results before today or fill the gap between timeslot 1 and next
 
   return(
     <div>
