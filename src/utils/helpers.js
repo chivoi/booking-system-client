@@ -38,3 +38,18 @@ export const paginate = (array, currentPage, resultsPerPage) => {
 		data: paginatedItems
 	};
 }
+
+export const getMonth = array => {
+  let dates = array.map(obj => obj.date.split("-")[1]);
+  let uniqueDates = [...new Set(dates)];
+  const months = [ "January", "February", "March", "April", "May", "June", 
+  "July", "August", "September", "October", "November", "December" ];
+  return uniqueDates.map(date => {
+    return months[parseInt(date.substr(1)) - 1]
+  });
+}
+
+export const getYear = array => {
+  let years = array.map(obj => obj.date.split("-")[0]);
+  return [...new Set(years)];
+}
