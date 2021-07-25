@@ -1,8 +1,7 @@
-import React, {useState, useEffect} from 'react'
+import React from 'react'
 // utils
 import { useGlobalContext } from '../utils/globalContext';
-import { formatDate, capitalize, findDateById } from '../utils/helpers';
-import { getBlockedTimeslots } from '../services/bookings';
+import { capitalize, findDateById } from '../utils/helpers';
 //styled
 import { BookingDiv, BookingsList, FilterLinks, Col1, Col2 } from './styled/BookingsListStyles';
 
@@ -11,14 +10,8 @@ const MyBookings = () => {
   const {store} = useGlobalContext();
   const {bookings, timeslots} = store;
 
-  // console.log("from MyBookings");
-  // console.log(blockedTimeslots);
-  // console.log(bookings)
-
-  // console.log("WHOOOOA", blockedTimeslots);
-
-  if (!bookings) return null;
-  if (!timeslots.blocked) return null;
+  // if (!bookings) return null;
+  // if (!timeslots.blocked) return null;
 
   return(
     <>

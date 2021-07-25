@@ -1,19 +1,19 @@
 import React, {useState, useEffect} from 'react';
 import {useHistory, useParams} from 'react-router-dom';
 import {useGlobalContext} from '../utils/globalContext';
-import {getTimeslots, getBooking, createBooking, updateBooking} from '../services/bookings';
+import {getBooking, createBooking, updateBooking} from '../services/bookings';
 // styled
 import {FormDiv, StyledForm, StyledFormCol, RadioButtons, FormHeading, FormSubmit} from './styled/FormStyles'
 // utils
-import {nextId} from '../utils/helpers';
+import {nextId, capitalize} from '../utils/helpers';
 
 
 const NewBooking = () => {
-  const eventTypes = {1: "Wedding", 2: "Party", 3: "Reception", 4: "Corporate", 5: "Festival", 6: "Other"};
+  const eventTypes = {1: "wedding", 2: "party", 3: "reception", 4: "corporate", 5: "festival", 6: "other"};
   const setDurations = [30, 35, 40, 45, 50, 60, 90, 120, 150, 180];
 
   const { store, dispatch } = useGlobalContext();
-  const {bookings} = store;
+  const {bookings, timeslots} = store;
   let history = useHistory();
 	let {id} = useParams();
 
@@ -32,17 +32,6 @@ const NewBooking = () => {
   
   const {timeslotId, venue, address, eventType, startTime, setDuration, message } = formState;
 
-  const [timeslots, setTimeslots] = useState([]);
-
-  // get and set  available timeslots
-
-  useEffect(() => {
-    getTimeslots()
-      .then(timeslots => {
-        setTimeslots(timeslots)
-      })
-      .catch(err => console.log(err))
-  }, [])
 
   useEffect(() => {
 		if(id) {
@@ -64,8 +53,6 @@ const NewBooking = () => {
 		}
 	},[id])
 
-  console.log(formState)
-
   const handleSubmit = e => {
     e.preventDefault();
     if (id) {
@@ -84,12 +71,10 @@ const NewBooking = () => {
         })
         .catch(err => console.log(err))
     }
-    console.log(formState)
-    console.log(store)
   };
 
   const handleChange = e => {
-    if (Object.values(eventTypes).includes(String(e.target.value))){
+    if (Object.values(eventTypes).includes(e.target.value)){
       setFormState({
         ...formState,
         eventType: Object.keys(eventTypes).find(key => eventTypes[key] === e.target.value)
@@ -108,15 +93,22 @@ const NewBooking = () => {
     }
   }
 
+  console.log(formState);
+  // console.log(Object.entries(eventTypes).map(t => t[1]) );
+
   return( 
     <FormDiv>
       <FormHeading>New Booking</FormHeading>
       <StyledForm onSubmit={handleSubmit}>
         <StyledFormCol>
           <label htmlFor="date">Select timeslot</label>
-          <select name="timeslot" id="timeslotId" value={timeslotId} onChange={handleChange}>
-            <option disabled selected>-- select timeslot --</option>
-            {timeslots.map(t => {
+          <select 
+            name="timeslot" 
+            id="timeslotId" 
+            value={timeslotId} 
+            onChange={handleChange}>
+            <option value="" disabled={true}  >-- select timeslot --</option>
+            {timeslots.available.map(t => {
               return <option key={t.id}>{t.id} - {t.date}, {t.half_day === "one" ? "08:00-16:00" : "17:00-23:00" }</option>;
             } )}
           </select>
@@ -126,18 +118,18 @@ const NewBooking = () => {
           <input type="text" name="address" id="address" value={address} onChange={handleChange}/>
           <label>Event type</label>
           <select name="eventType" id="eventType" value={eventType} onChange={handleChange}>
-            <option disabled selected> -- select event type -- </option>
+          <option value="" disabled={true}  >-- select event type --</option>
             {Object.entries(eventTypes).map((t) => {
               return <option key={t[0]}>{t[1]}</option>;
             })}
           </select>
           <label>Start time</label>
           <input type="text" name="startTime" id="startTime" value={startTime} onChange={handleChange}/>
-          <label>Set duration(min): </label>
+          <label>Set duration: </label>
           <select name="setDuration" id="setDuration" value={setDuration} onChange={handleChange}>
-            <option disabled selected> -- select duration -- </option>
+          <option value="" disabled={true} selected={true} >-- select set duration --</option>
             {setDurations.map((t) => {
-              return <option key={t}>{t}</option>;
+              return <option key={t}>{t} min</option>;
             })}
           </select>
           <RadioButtons>

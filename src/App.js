@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 // utils
 import {reducer} from './utils/reducer';
 import { GlobalContext } from './utils/globalContext';
-import { getUserBookings, getBookings, getBlockedTimeslots } from './services/bookings';
+import { getUserBookings, getBookings, getBlockedTimeslots, getTimeslots } from './services/bookings';
 // styles
 import './App.css';
 // components
@@ -48,7 +48,6 @@ function App() {
 
   // pull bookings into the global state
   useEffect(() => {
-    console.log(userDetails.isAdmin);
     if (userDetails.isAdmin) {
       getBookings()
         .then(bookings => {
@@ -72,16 +71,31 @@ function App() {
 
   // get and set blocked timeslots
   useEffect(() => {
-    getBlockedTimeslots()
+    if (loggedInUser) {
+      getBlockedTimeslots()
+        .then(timeslots => {
+          sessionStorage.setItem("blockedTimeslots", JSON.stringify(timeslots) )
+            dispatch({
+              type: 'setBlockedTimeslots',
+              data: timeslots
+            })
+        })
+        .catch(err => console.log(err))
+    }
+  }, [bookings, loggedInUser])
+
+  // get and set  available timeslots
+  useEffect(() => {
+    getTimeslots()
       .then(timeslots => {
-        sessionStorage.setItem("blockedTimeslots", JSON.stringify(timeslots) )
+        sessionStorage.setItem("availableTimeslots", JSON.stringify(timeslots) )
           dispatch({
-            type: 'setBlockedTimeslots',
+            type: 'setTimeslots',
             data: timeslots
           })
       })
       .catch(err => console.log(err))
-  }, [bookings, loggedInUser])
+  }, [])
 
   const handleMenuClick = (e) => {
     setAnchorEl(e.currentTarget);
