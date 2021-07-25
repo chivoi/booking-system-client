@@ -1,9 +1,6 @@
 import bookingSystemAPI from '../config/api';
 
-export async function getBookings() {
-	const response = await bookingSystemAPI.get('/api/bookings');
-	return response.data;
-};
+// timeslots
 
 export async function getTimeslots() {
 	const response = await bookingSystemAPI.get('api/timeslots')
@@ -20,6 +17,8 @@ export async function getBlockedTimeslots() {
 	return response.data
 }
 
+// clients
+
 export async function getClients() {
 	const response = await bookingSystemAPI.get('api/clients')
 	return response.data
@@ -29,6 +28,13 @@ export async function getSingleClient(id) {
 	const response = await bookingSystemAPI.get(`api/clients/${id}`)
 	return response.data
 }
+
+// bookings
+
+export async function getBookings() {
+	const response = await bookingSystemAPI.get('/api/bookings');
+	return response.data;
+};
 
 export async function getUserBookings() {
   const response = await bookingSystemAPI.get('/api/my_bookings');
@@ -73,6 +79,8 @@ export async function updateBooking(booking) {
 	return booking;	
 }
 
+// account details
+
 export async function updateDetails(details) {
 	const response = await bookingSystemAPI.patch('/api/my_details', {
 		first_name: details.first_name,
@@ -85,5 +93,10 @@ export async function updateDetails(details) {
 
 export async function getUserDetails() {
 	const response = await bookingSystemAPI.get('/api/my_details');
+	return response.data;
+}
+
+export async function deleteAccount() {
+	const response = await bookingSystemAPI.delete('/api/my_details');
 	return response.data;
 }

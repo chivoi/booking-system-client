@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 // utils
 import {reducer} from './utils/reducer';
 import { GlobalContext } from './utils/globalContext';
+import { getUserBookings, getBookings, getBlockedTimeslots } from './services/bookings';
 // styles
 import './App.css';
 // components
@@ -32,14 +33,55 @@ function App() {
       phoneNum: sessionStorage.getItem("phoneNum") || "",
       isAdmin: sessionStorage.getItem("isAdmin") || false
     },
-    bookings: []
+    bookings: JSON.parse(sessionStorage.getItem("bookings")) || [],
+    timeslots: {
+      available: JSON.parse(sessionStorage.getItem("availableTimeslots")) || [],
+      blocked: JSON.parse(sessionStorage.getItem("blockedTimeslots")) || []
+    }
   }
 
   const [store, dispatch] = useReducer(reducer, initialState);
 
-  const { loggedInUser } = store;
+  const { loggedInUser, userDetails, bookings } = store;
 
   console.log(store);
+
+  // pull bookings into the global state
+  useEffect(() => {
+    console.log(userDetails.isAdmin);
+    if (userDetails.isAdmin) {
+      getBookings()
+        .then(bookings => {
+          sessionStorage.setItem("bookings", JSON.stringify(bookings) )
+          dispatch({
+            type: 'setBookings',
+            data: bookings
+          })
+        })
+    } else {
+      getUserBookings()
+      .then(bookings => {
+        sessionStorage.setItem("bookings", JSON.stringify(bookings) )
+        dispatch({
+          type: 'setBookings',
+          data: bookings
+        })
+      })
+    }
+  }, [loggedInUser, userDetails.isAdmin])
+
+  // get and set blocked timeslots
+  useEffect(() => {
+    getBlockedTimeslots()
+      .then(timeslots => {
+        sessionStorage.setItem("blockedTimeslots", JSON.stringify(timeslots) )
+          dispatch({
+            type: 'setBlockedTimeslots',
+            data: timeslots
+          })
+      })
+      .catch(err => console.log(err))
+  }, [bookings, loggedInUser])
 
   const handleMenuClick = (e) => {
     setAnchorEl(e.currentTarget);

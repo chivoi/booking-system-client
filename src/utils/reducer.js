@@ -60,9 +60,24 @@ export const reducer = (state, action) => {
     case 'setTimeSlots': {
       return {
         ...state,
-        timeslots: action.data
+        timeslots: {
+          ...state.timeslots,
+          available: action.data
+        }
       }
     }
+
+    case 'setBlockedTimeslots': {
+      return {
+        ...state,
+        timeslots: {
+          ...state.timeslots,
+          blocked: action.data
+        }
+      }
+    }
+
+
     case 'updateBooking': {
 			const booking = state.bookings.find((booking) => booking.id == action.data.id)
 			const rest = state.bookings.filter((booking) => booking.id != action.data.id)
@@ -72,6 +87,15 @@ export const reducer = (state, action) => {
 				bookings: [updatedBooking, ...rest]
 			}
 		}
+    case 'deleteBooking': {
+      const updatedBookings = state.bookings.filter((bkng) => {
+				return bkng.id !== parseInt(action.data)
+			})
+			return {
+				...state,
+			  bookings: updatedBookings
+			}
+    }
     case 'addBooking': {
       return {
 				...state,

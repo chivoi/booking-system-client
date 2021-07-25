@@ -69,6 +69,7 @@ const SignUp = () => {
         dispatch({type: 'setFirstName', data: first_name})
         dispatch({type: 'setLastName', data: last_name})
         dispatch({type: 'setPhoneNum', data: phone_num})
+        dispatch({type: 'setIsAdmin', data: false})
         history.push('/new')
       })
       .catch((error) => console.log(error))

@@ -13,7 +13,7 @@ const SingleBooking = () => {
   const [client, setClient] = useState("");
   let history = useHistory();
   const {store, dispatch} = useGlobalContext();
-  console.log(store);
+  // console.log(store);
   const {userDetails} = store;
 
   useEffect(() => {
@@ -37,8 +37,8 @@ const SingleBooking = () => {
     }
   }, [booking])
 
-  console.log(booking);
-  console.log(timeslot);
+  // console.log(booking);
+  // console.log(timeslot);
   // console.log(client);
 
   const handleDelete = () => {
