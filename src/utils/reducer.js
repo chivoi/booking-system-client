@@ -64,7 +64,6 @@ export const reducer = (state, action) => {
       }
     }
     case 'updateBooking': {
-      console.log(state.bookings)
 			const booking = state.bookings.find((booking) => booking.id == action.data.id)
 			const rest = state.bookings.filter((booking) => booking.id != action.data.id)
 			const updatedBooking = Object.assign(booking, action.data)
@@ -79,8 +78,6 @@ export const reducer = (state, action) => {
 				bookings: [action.data, ...state.bookings]
 			}
     }
-    
-    
     default:
       return state;
   }

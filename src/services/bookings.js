@@ -70,6 +70,20 @@ export async function updateBooking(booking) {
 		pa_provided: "false" ? false : true,
 		message: booking.message
 		});
-	return booking;
-	
+	return booking;	
+}
+
+export async function updateDetails(details) {
+	const response = await bookingSystemAPI.patch('/api/my_details', {
+		first_name: details.first_name,
+		last_name: details.last_name,
+		phone_num: details.phone_num,
+		email: details.email
+	});
+	return details;
+}
+
+export async function getUserDetails() {
+	const response = await bookingSystemAPI.get('/api/my_details');
+	return response.data;
 }

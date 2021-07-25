@@ -13,7 +13,6 @@ import SingleBooking from './components/SingleBooking'
 import MyDetails from './components/MyDetails'
 import Availability from './components/Availability'
 import Clients  from './components/MyClients'
-import ClientCard  from './components/my-clients/ClientCard'
 import LogIn from './components/auth/LogIn'
 import SignUp from './components/auth/SignUp'
 import LogOut from './components/auth/LogOut'
@@ -66,7 +65,6 @@ function App() {
             <Route exact path="/log-out" render={props => <LogOut />} />
             <Route exact path="/availability" render={props => <Availability />} />
             <Route exact path="/clients" render={props => <Clients />} />
-            <Route exact path="/clients/:id" render={props => <ClientCard />} />
             <Route exact path='/log-in' component={LogIn}></Route>
 						<Route exact path='/sign-up' component={SignUp}></Route>
           </Switch>
