@@ -76,7 +76,36 @@ export const reducer = (state, action) => {
         }
       }
     }
-
+    case 'updateTimeslots': {
+      if (action.data.isBlocked == true) {
+        const timeslot = state.timeslots.blocked.find(t => t.id == action.data.id);
+        const restAvailable = state.timeslots.available;
+        const restBlocked = state.timeslots.blocked.filter(t => t.id != action.data.id )
+        const updatedTimeslot = Object.assign(timeslot, action.data)
+        return {
+          ...state,
+          timeslots: {
+            ...state.timeslots,
+            available:[updatedTimeslot, ...restAvailable],
+            blocked:[...restBlocked]
+          }
+        }
+      } else {
+        const timeslot = state.timeslots.available.find(t => t.id == action.data.id);
+        const restBlocked = state.timeslots.blocked;
+        const restAvailable = state.timeslots.available.filter(t => t.id != action.data.id )
+        const updatedTimeslot = Object.assign(timeslot, action.data)
+        console.log(timeslot)
+        return {
+          ...state,
+          timeslots: {
+            ...state.timeslots,
+            blocked:[updatedTimeslot, ...restBlocked],
+            available: [...restAvailable]
+          }
+        }
+      }
+    }
 
     case 'updateBooking': {
 			const booking = state.bookings.find((booking) => booking.id == action.data.id)

@@ -17,6 +17,16 @@ export async function getBlockedTimeslots() {
 	return response.data
 }
 
+export async function updateTimeslot(timeslot, action) {
+	console.log(timeslot);
+	console.log(action);
+	const response = await bookingSystemAPI.patch('api/edit_availability', {
+		id: timeslot.id,
+		is_blocked: action === "block" ? true : false
+	})
+	return timeslot;
+}
+
 // clients
 
 export async function getClients() {

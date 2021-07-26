@@ -38,7 +38,6 @@ const NewBooking = () => {
 			getBooking(id)
 			.then(booking => {
         let { timeslot_id, venue, address, event_type, start_time, set_duration, pa_provided, message } = booking;
-				console.log(booking);
         setFormState({
           timeslotId: timeslot_id,
           venue: venue,
