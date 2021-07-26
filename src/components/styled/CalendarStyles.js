@@ -31,23 +31,28 @@ export const WeekBox = styled.div`
 `;
 
 export const DayBox = styled.div`
+  display: flex;
+  flex-direction: row;
   border-right: 1px solid black;
   border-bottom: 1px solid black;
   padding: 0.5rem 0.7rem;
   width: 47.9%;
-  height: 5rem;
+  height: 3rem;
   &:last-child{
     border-right: none;
+  }
+  & > * {
+    margin-right: 1rem;
   }
 `;
 
 export const TimeslotBox = styled.div`
-  height: 25%;
+  height: 20%;
   font-size: small;
   `;
 
 export const Date = styled.div`
-  height: 25%;
+  height: 50%;
   font-weight: bold;
 `;
 
@@ -56,4 +61,11 @@ export const MonthNav = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+`;
+
+export const KeyBox = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 30%;
+  justify-content: space-evenly;
 `;

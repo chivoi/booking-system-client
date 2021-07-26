@@ -1,9 +1,9 @@
 import React from 'react';
 // utils
 import {useGlobalContext} from '../utils/globalContext';
-import {paginate, getMonth, getYear} from '../utils/helpers';
+import {paginate, getMonth, getYear, capitalize} from '../utils/helpers';
 // styled
-import {Calendar, Header, MonthBox, DateGrid, WeekBox, DayBox, TimeslotBox, Date, MonthNav} from './styled/CalendarStyles';
+import {Calendar, Header, MonthBox, DateGrid, WeekBox, DayBox, TimeslotBox, Date, MonthNav, KeyBox} from './styled/CalendarStyles';
 import {FormDiv, StyledForm, FormHeading, FormSubmit} from './styled/SignUpFormStyles'
 // icons
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
@@ -14,25 +14,42 @@ import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 const Availability = () => {
 
   const {store} = useGlobalContext();
-  const {timeslots} = store;
+  const {timeslots, bookings} = store;
   const allTimeslots = timeslots.blocked.concat(timeslots.available).sort((f,s) => f.id-s.id );
-  const paginated = paginate(allTimeslots, 1, 28);
+  const paginated = paginate(allTimeslots, 1, 16);
 
-  console.log(paginated.data);
+  // console.log(paginated);
 
-  // somehow delete all results before today or fill the gap between timeslot 1 and next
+  const bookingById = id => {
+    if (!id) return "";
+    let result = bookings.find(booking => {
+      return(booking.timeslot_id == id ? booking : "")
+     });
+    return result;
+  }
+
+  const formatBooking = obj => {
+    if (!obj || Object.entries(obj).length < 1) return "";
+    return `${capitalize(obj.event_type)} @ ${obj.venue}`
+  }
+
+  // console.log(formatBooking(bookingById(102)) )
 
   return(
     <div>
       <Header>My Availability</Header>
+      <KeyBox>
+        <p><BlockIcon style={{color: "red", padding: "0"} } /> - blocked </p>   
+        <p><CheckCircleOutlineIcon style={{color: "green"} }  /> - available</p>
+      </KeyBox>
       <Calendar>
         <MonthBox><h3>{getMonth(paginated.data).join(" / ")} {getYear(paginated.data).join("-") }</h3></MonthBox>
         <DateGrid>
-        {paginated.data.map((timeslot, index) => {
+        {paginated.data.map((timeslot) => {
           return(
           <DayBox>
             <Date>{timeslot.date.split("-")[2]}</Date>
-            <TimeslotBox>{timeslot.half_day === "one" ? "08-16" : "17-23"} {timeslot.is_blocked ? <BlockIcon style={{color: "red"} } /> : <CheckCircleOutlineIcon style={{color: "green"} }   />  } </TimeslotBox>
+            <TimeslotBox>{timeslot.half_day === "one" ? "08:00-16:00" : "17:00-23:00"} {timeslot.is_blocked ? <BlockIcon style={{color: "red"} } /> : <CheckCircleOutlineIcon style={{color: "green"} }  />  } {formatBooking(bookingById(timeslot.id))} </TimeslotBox>
           </DayBox>)
         })}
 
