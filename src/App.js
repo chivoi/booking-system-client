@@ -39,7 +39,9 @@ function App() {
     timeslots: {
       available: JSON.parse(sessionStorage.getItem("availableTimeslots")) || [],
       blocked: JSON.parse(sessionStorage.getItem("blockedTimeslots")) || []
-    }
+    },
+    loading: true,
+    error: null
   }
 
   const [store, dispatch] = useReducer(reducer, initialState);
@@ -49,11 +51,9 @@ function App() {
   console.log(store);
 
   // pull bookings into the global state
-  useEffect(() => {
+  useEffect( () => {
     if (loggedInUser) {
-      console.log(userDetails.isAdmin)
-      if (userDetails.isAdmin) {
-        console.log("herer")
+      if (userDetails.isAdmin == "true") {
         getBookings()
           .then(bookings => {
             sessionStorage.setItem("bookings", JSON.stringify(bookings) )

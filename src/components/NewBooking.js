@@ -1,17 +1,15 @@
 import React, {useState, useEffect} from 'react';
+import Select from 'react-select';
 import {useHistory, useParams} from 'react-router-dom';
 import {useGlobalContext} from '../utils/globalContext';
 import {getBooking, createBooking, updateBooking} from '../services/bookings';
 // styled
-import {FormDiv, StyledForm, StyledFormCol, RadioButtons, FormHeading, FormSubmit} from './styled/FormStyles'
+import {FormDiv, StyledForm, StyledFormCol, RadioButtons, FormHeading, FormSubmit, TextInput, TextArea, BoldLabel} from './styled/FormStyles'
 // utils
-import {nextId, capitalize} from '../utils/helpers';
+import {nextId, formatDate} from '../utils/helpers';
 
 
 const NewBooking = () => {
-  const eventTypes = {1: "wedding", 2: "party", 3: "reception", 4: "corporate", 5: "festival", 6: "other"};
-  const setDurations = [30, 35, 40, 45, 50, 60, 90, 120, 150, 180];
-
   const { store, dispatch } = useGlobalContext();
   const {bookings, timeslots} = store;
   let history = useHistory();
@@ -73,66 +71,95 @@ const NewBooking = () => {
   };
 
   const handleChange = e => {
-    if (Object.values(eventTypes).includes(e.target.value)){
-      setFormState({
-        ...formState,
-        eventType: Object.keys(eventTypes).find(key => eventTypes[key] === e.target.value)
-      })
-    } else if (e.target.name === "timeslot") {
-      setFormState({
-        ...formState,
-        timeslotId: e.target.value.split(" ")[0]
-      })
-    }
-    else{
-      setFormState({
-        ...formState,
-        [e.target.id]: e.target.value
-      })
-    }
+    setFormState({
+      ...formState,
+      [e.target.id]: e.target.value
+    })
+  }
+
+  const handleDurationSelect = e => {
+    setFormState({
+      ...formState,
+      setDuration: e.value
+    })
+  }
+
+  const handleEventTypeSelect = e => {
+    setFormState({
+      ...formState,
+      eventType: e.value
+    })
+  }
+
+  const handleTimeslotSelect = e => {
+    setFormState({
+      ...formState,
+      timeslotId: e.value
+    })
   }
 
   console.log(formState);
-  // console.log(Object.entries(eventTypes).map(t => t[1]) );
+
+  const eventOptions = [
+    { value: 1, label: 'wedding' },
+    { value: 2, label: 'party' },
+    { value: 3, label: 'reception' },
+    { value: 4, label: 'corporate' },
+    { value: 5, label: 'festival' },
+    { value: 6, label: 'other' }
+  ]
+
+  const setDurations = [
+    {value: 30, label: "30 min"},
+    {value: 35, label: "35 min"},
+    {value: 40, label: "40 min"},
+    {value: 45, label: "45 min"},
+    {value: 50, label: "50 min"},
+    {value: 60, label: "1 hour"},
+    {value: 90, label: "1 hour 30 min"},
+    {value: 120, label: "2 hours"},
+    {value: 150, label: "2 hours 30 min"},
+    {value: 180, label: "3 hours"}
+  ]
+
+  const timeslotOptions = timeslots.available.map(t => {
+    return {
+      value: t.id,
+      label: `${formatDate(t.date)}, ${t.half_day === "one" ? "08:00-16:00" : "17:00-23:00" }`
+    }
+  })
 
   return( 
     <FormDiv>
       <FormHeading>New Booking</FormHeading>
       <StyledForm onSubmit={handleSubmit}>
         <StyledFormCol>
-          <label htmlFor="date">Select timeslot</label>
-          <select 
+          <BoldLabel>Select timeslot</BoldLabel>
+          <Select
             name="timeslot" 
             id="timeslotId" 
-            value={timeslotId} 
-            onChange={handleChange}>
-            <option value="" disabled={true}  >-- select timeslot --</option>
-            {timeslots.available.map(t => {
-              return <option key={t.id}>{t.id} - {t.date}, {t.half_day === "one" ? "08:00-16:00" : "17:00-23:00" }</option>;
-            } )}
-          </select>
-          <label>Venue </label>
-          <input type="text" name="venue" id="venue" value={venue} onChange={handleChange}/>
-          <label>Address</label>
-          <input type="text" name="address" id="address" value={address} onChange={handleChange}/>
-          <label>Event type</label>
-          <select name="eventType" id="eventType" value={eventType} onChange={handleChange}>
-          <option value="" disabled={true} selected={true} >-- select event type --</option>
-            {Object.entries(eventTypes).map((t) => {
-              return <option key={t[0]}>{t[1]}</option>;
-            })}
-          </select>
-          <label>Start time</label>
-          <input type="text" name="startTime" id="startTime" value={startTime} onChange={handleChange}/>
-          <label>Set duration(min): </label>
-          <select name="setDuration" id="setDuration" value={setDuration} onChange={handleChange}>
-          <option value="" disabled={true} selected={true} >-- select set duration --</option>
-            {setDurations.map((t) => {
-              return <option key={t}>{t}</option>;
-            })}
-          </select>
+            options={timeslotOptions}
+            onChange={handleTimeslotSelect} />
+          <BoldLabel>Venue </BoldLabel>
+          <TextInput type="text" name="venue" id="venue" value={venue} onChange={handleChange}/>
+          <BoldLabel>Address</BoldLabel>
+          <TextInput type="text" name="address" id="address" value={address} onChange={handleChange}/>
+          <BoldLabel>Event type</BoldLabel>
+          <Select 
+            name="eventType" 
+            id="eventType" 
+            options={eventOptions}
+            onChange={handleEventTypeSelect} />
+          <BoldLabel>Start time</BoldLabel>
+          <TextInput type="text" name="startTime" id="startTime" value={startTime} onChange={handleChange}/>
+          <BoldLabel>Set duration(min): </BoldLabel>
+          <Select 
+            name="setDuration" 
+            id="setDuration"
+            options={setDurations}
+            onChange={handleDurationSelect}/>
           <RadioButtons>
-            <label>PA provided?</label>
+            <BoldLabel>PA provided?</BoldLabel>
             <div>
               <input type="radio" value={true} name="paProvided" id="paProvided" onChange={handleChange} />
               <label htmlFor="yes">Yes</label>
@@ -144,8 +171,8 @@ const NewBooking = () => {
           </RadioButtons>
         </StyledFormCol>
         <StyledFormCol>
-          <label>Message</label>
-          <textarea name="message" rows="10" cols="30" id="message" value={message} onChange={handleChange}/>
+          <BoldLabel>Message</BoldLabel>
+          <TextArea name="message" rows="10" cols="30" id="message" value={message} onChange={handleChange}/>
           <FormSubmit type="submit" value={id ? "Update Booking" : "Book"} />
         </StyledFormCol>
       </StyledForm>

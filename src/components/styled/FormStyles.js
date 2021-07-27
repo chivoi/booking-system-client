@@ -38,4 +38,23 @@ export const FormHeading = styled.h1`
 export const FormSubmit = styled.input`
   width: 50%;
   align-self: center;
+  border-radius: 5px;
+  border: 1px solid lightgray;
+`;
+
+export const TextInput = styled.input`
+  height: 2.7rem;
+  font-size: 16;
+  padding: 2px 8px;
+  border-radius: 5px;
+  border: 1px solid lightgray;
+`;
+
+export const TextArea = styled.textarea`
+  border-radius: 5px;
+  border: 1px solid lightgray;
+`;
+
+export const BoldLabel = styled.label`
+  font-weight: bold;
 `;

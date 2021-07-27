@@ -11,9 +11,6 @@ const MyBookings = () => {
   const {store} = useGlobalContext();
   const {bookings, timeslots} = store;
 
-  // if (!bookings) return null;
-  // if (!timeslots.blocked) return null;
-
   return(
     <>
       <h1>My Bookings</h1>

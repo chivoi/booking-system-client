@@ -16,9 +16,9 @@ const Nav = ({anchorEl, handleMenuClick, handleMenuClose}) => {
 
   return(
     <StyledNav>
-      {loggedInUser && !isAdmin && 
+      {loggedInUser && (isAdmin =="false") && 
         <StyledNavP><NavLink exact to="/new"> Create Booking </NavLink></StyledNavP>}
-      {loggedInUser && isAdmin &&
+      {loggedInUser && (isAdmin == "true") &&
           <StyledNavP><NavLink exact to="/bookings"> My Bookings </NavLink></StyledNavP>}
       <div>
       <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleMenuClick}>
@@ -35,7 +35,7 @@ const Nav = ({anchorEl, handleMenuClick, handleMenuClose}) => {
           <div>
             <MenuItem onClick={handleMenuClose}>Logged in as: {loggedInUser} </MenuItem> 
             <MenuItem onClick={handleMenuClose}><NavLink exact to="/bookings"> My Bookings </NavLink></MenuItem>
-            {loggedInUser && userDetails.isAdmin ? <MenuItem onClick={handleMenuClose}><NavLink exact to="/clients"> My Clients </NavLink></MenuItem> : <MenuItem onClick={handleMenuClose}><NavLink exact to="/details"> My Details </NavLink></MenuItem>
+            {loggedInUser && (isAdmin == "true") ? <MenuItem onClick={handleMenuClose}><NavLink exact to="/clients"> My Clients </NavLink></MenuItem> : <MenuItem onClick={handleMenuClose}><NavLink exact to="/details"> My Details </NavLink></MenuItem>
         }
             <MenuItem onClick={handleMenuClose}><NavLink exact to="/log-out"> Log Out </NavLink></MenuItem>
           </div>

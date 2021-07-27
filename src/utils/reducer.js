@@ -131,6 +131,18 @@ export const reducer = (state, action) => {
 				bookings: [action.data, ...state.bookings]
 			}
     }
+    case 'setLoading': {
+      return {
+        ...state,
+        loading: action.data
+      }
+    }
+    case 'setError': {
+      return {
+        ...state,
+        error: action.data
+      }
+    }
     default:
       return state;
   }
