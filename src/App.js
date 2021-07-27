@@ -46,22 +46,40 @@ function App() {
 
   const [store, dispatch] = useReducer(reducer, initialState);
 
-  const { loggedInUser, userDetails, bookings } = store;
+  const { loggedInUser, userDetails, bookings, loading } = store;
 
   console.log(store);
 
   // pull bookings into the global state
+
+  const getBookingsAsync = async () => {
+    try{
+      getBookings()
+        .then(bookings => {
+          sessionStorage.setItem("bookings", JSON.stringify(bookings) )
+          dispatch({
+            type: 'setBookings',
+            data: bookings
+          })
+        });
+        dispatch({type: "setLoading", data: true})
+    } catch(e) {
+      dispatch({type: "setError", data: e})
+    }
+  }
+
   useEffect( () => {
     if (loggedInUser) {
       if (userDetails.isAdmin == "true") {
-        getBookings()
-          .then(bookings => {
-            sessionStorage.setItem("bookings", JSON.stringify(bookings) )
-            dispatch({
-              type: 'setBookings',
-              data: bookings
-            })
-          })
+        getBookingsAsync();
+        // getBookings()
+        //   .then(bookings => {
+        //     sessionStorage.setItem("bookings", JSON.stringify(bookings) )
+        //     dispatch({
+        //       type: 'setBookings',
+        //       data: bookings
+        //     })
+        //   })
       } else {
         getUserBookings()
         .then(bookings => {
@@ -90,7 +108,7 @@ function App() {
     }
   }, [bookings, loggedInUser])
 
-  // get and set  available timeslots
+  // get and set available timeslots
   useEffect(() => {
     getTimeslots()
       .then(timeslots => {
@@ -113,7 +131,7 @@ function App() {
 
   return (
     <>
-      <ReactNotification />
+      <ReactNotification /> 
       <GlobalContext.Provider value={{store,dispatch}}>
         <Router>
           <Nav anchorEl={anchorEl} handleMenuClick={handleMenuClick} handleMenuClose={handleMenuClose} />
@@ -129,7 +147,7 @@ function App() {
             <Route exact path="/availability" render={props => <Availability />} />
             <Route exact path="/clients" render={props => <Clients />} />
             <Route exact path='/log-in' component={LogIn}></Route>
-						<Route exact path='/sign-up' component={SignUp}></Route>
+            <Route exact path='/sign-up' component={SignUp}></Route>
           </Switch>
         </Router>
       </GlobalContext.Provider>
