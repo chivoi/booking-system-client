@@ -16,7 +16,7 @@ const Nav = ({anchorEl, handleMenuClick, handleMenuClose}) => {
 
   return(
     <StyledNav>
-      {loggedInUser && (isAdmin =="false") && 
+      {loggedInUser && (isAdmin == "false") && 
         <StyledNavP><NavLink exact to="/new"> Create Booking </NavLink></StyledNavP>}
       {loggedInUser && (isAdmin == "true") &&
           <StyledNavP><NavLink exact to="/bookings"> My Bookings </NavLink></StyledNavP>}

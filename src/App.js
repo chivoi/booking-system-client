@@ -46,7 +46,7 @@ function App() {
 
   const [store, dispatch] = useReducer(reducer, initialState);
 
-  const { loggedInUser, userDetails, bookings, loading } = store;
+  const { loggedInUser, userDetails, bookings } = store;
 
   console.log(store);
 
@@ -62,7 +62,7 @@ function App() {
             data: bookings
           })
         });
-        dispatch({type: "setLoading", data: true})
+      dispatch({type: "setLoading", data: false})
     } catch(e) {
       dispatch({type: "setError", data: e})
     }
