@@ -117,7 +117,7 @@ const NewBooking = () => {
           <input type="text" name="address" id="address" value={address} onChange={handleChange}/>
           <label>Event type</label>
           <select name="eventType" id="eventType" value={eventType} onChange={handleChange}>
-          <option value="" disabled={true}  >-- select event type --</option>
+          <option value="" disabled={true} selected={true} >-- select event type --</option>
             {Object.entries(eventTypes).map((t) => {
               return <option key={t[0]}>{t[1]}</option>;
             })}

@@ -6,6 +6,7 @@ import { deleteAccount } from '../services/bookings';
 import { useGlobalContext } from '../utils/globalContext';
 // styles
 import 'animate.css/animate.min.css';
+import { StyledButtonBox} from './styled/SingleBookingStyles';
 
 
 const MyDetails = () => {
@@ -25,7 +26,7 @@ const MyDetails = () => {
         notificationStore.addNotification({
           title: "Account deleted.",
           message: "Come back soon!",
-          type: "success",
+          type: "info",
           insert: "top",
           container: "top-right",
           animationIn: ["animate__animated", "animate__fadeIn"],
@@ -44,10 +45,10 @@ const MyDetails = () => {
       <p>Last name: {userDetails.lastName}</p>
       <p>Phone number: {userDetails.phoneNum}</p>
       <p>Email: {store.loggedInUser}</p>
-      <div>
+      <StyledButtonBox>
         <button onClick={handleUpdate}>Update Details</button>
         <button onClick={handleDelete}>Delete Account</button>
-      </div>
+      </StyledButtonBox>
     </div>
   )
 }

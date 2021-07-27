@@ -1,9 +1,10 @@
-import React from 'react'
+import React from 'react';
+import {Link} from 'react-router-dom';
 // utils
 import { useGlobalContext } from '../utils/globalContext';
 import { capitalize, findDateById } from '../utils/helpers';
 //styled
-import { BookingDiv, BookingsList, FilterLinks, Col1, Col2 } from './styled/BookingsListStyles';
+import { BookingDiv, BookingsList, Col1, Col2 } from './styled/BookingsListStyles';
 
 const MyBookings = () => {
 
@@ -16,11 +17,9 @@ const MyBookings = () => {
   return(
     <>
       <h1>My Bookings</h1>
-      <FilterLinks>All bookings / Past bookings / Future bookings</FilterLinks>
       <BookingsList>
         {bookings.map(booking => {
-          console.log(booking.id, booking.event_type)
-          return <BookingDiv key={booking.id}><Col1>{findDateById(booking.timeslot_id, timeslots.blocked) }, {booking.venue}</Col1><Col2>{capitalize(booking.event_type) }, {booking.duration} min </Col2></BookingDiv>
+          return <BookingDiv key={booking.id}><Col1>{findDateById(booking.timeslot_id, timeslots.blocked) }, {booking.venue}</Col1><Col2>{capitalize(booking.event_type) }, {booking.duration} min  <Link to={`/bookings/${booking.id}`} >Details</Link></Col2></BookingDiv>
         })}
       </BookingsList>
     </>

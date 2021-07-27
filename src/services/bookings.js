@@ -63,8 +63,8 @@ export async function createBooking(booking) {
 		address: booking.address,
 		event_type: parseInt(booking.eventType),
 		start_time: booking.startTime,
-		set_duration: parseInt(booking.setDuration),
-		pa_provided: "false" ? false : true,
+		duration: parseInt(booking.setDuration),
+		pa_provided: booking.paProvided === "false" ? false : true,
 		message: booking.message
 	});
 	return booking;

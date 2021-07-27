@@ -51,7 +51,9 @@ function App() {
   // pull bookings into the global state
   useEffect(() => {
     if (loggedInUser) {
+      console.log(userDetails.isAdmin)
       if (userDetails.isAdmin) {
+        console.log("herer")
         getBookings()
           .then(bookings => {
             sessionStorage.setItem("bookings", JSON.stringify(bookings) )

@@ -68,7 +68,7 @@ const Availability = () => {
       <h3>Edit availability</h3>
       <StyledForm onSubmit={handleSubmit}>
         <label>Timeslot:</label>
-        <select name="timeslot" id="timeslotId" onClick={handleChange}>
+        <select name="timeslot" id="timeslotId" value={formState.timeslot} onClick={handleChange}>
         <option value="" disabled={true} selected={true}  >-- select timeslot --</option>
             {allTimeslots.map(t => {
               return <option key={t.id}>{t.date}--{t.half_day === "one" ? "08:00-16:00" : "17:00-23:00"}--{t.is_blocked ? "Blocked" : "Available"}--{t.id}</option>;

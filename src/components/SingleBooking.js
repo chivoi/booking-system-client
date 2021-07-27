@@ -1,10 +1,13 @@
+import { nonEmptyArray } from 'check-types';
 import React, {useState, useEffect} from 'react';
-import {useParams, useHistory} from 'react-router-dom';
+import {useParams, useHistory, Link} from 'react-router-dom';
 import {getBooking, getSingleTimeslot, getSingleClient} from '../services/bookings';
 import {deleteBooking} from '../services/bookings';
 // utils
 import {useGlobalContext} from '../utils/globalContext';
 import {formatDate} from '../utils/helpers';
+// styles
+import { StyledButtonBox, Container } from './styled/SingleBookingStyles';
 
 const SingleBooking = () => {
   const [booking, setBooking] = useState({});
@@ -54,28 +57,28 @@ const SingleBooking = () => {
   // if (!client) return null;
 
   return(
-    <div>
+    <Container>
       <h1>{booking.venue}, {formatDate(timeslot.date)}</h1>
-      <p>Back to My Bookings</p>
+      <Link to='/bookings' style={{fontSize: "1.3rem" } }>Back to My Bookings</Link>
       <div>
-        {userDetails.isAdmin === "true" && <p>Made by: {client.first_name} {client.last_name}</p>}
-        <p>Timeslot: {formatDate(timeslot.date)}, {timeslot.half_day === 1 ? "08:00 - 16:00" : "17:00 - 23:00"} </p>
-        <p>Venue: {booking.venue}</p>
-        <p>Address: {booking.address}</p>
+        {userDetails.isAdmin === "true" && <p><b>Made by:</b> {client.first_name} {client.last_name}</p>}
+        <p><b>Timeslot:</b> {formatDate(timeslot.date)}, {timeslot.half_day === 1 ? "08:00 - 16:00" : "17:00 - 23:00"} </p>
+        <p> <b>Venue:</b> {booking.venue}</p>
+        <p> <b>Address:</b> {booking.address}</p>
         {/* <p>Event type: {capitalize(booking.event_type)}</p> */}
-        <p>Start time: {booking.start_time}</p>
-        <p>Set duration: {booking.duration} min</p>
-        <p>PA Provided: {booking.pa_provided ? "Yes" : "No"}</p>
+        <p> <b>Start time:</b> {booking.start_time}</p>
+        <p> <b>Set duration:</b> {booking.duration} min</p>
+        <p> <b>PA Provided:</b> {booking.pa_provided ? "Yes" : "No"}</p>
       </div>
       <div>
-        <p>Message:</p>
+        <p> <b>Message:</b> </p>
         <div>{booking.message}</div>
       </div>
-      <div>
+      <StyledButtonBox>
         <button onClick={()=> history.push(`/bookings/update/${id}`)} >Update</button>
         <button onClick={handleDelete}>Delete</button>
-      </div>
-    </div>
+      </StyledButtonBox>
+    </Container>
   )
 }
 

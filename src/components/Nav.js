@@ -19,7 +19,7 @@ const Nav = ({anchorEl, handleMenuClick, handleMenuClose}) => {
       {loggedInUser && !isAdmin && 
         <StyledNavP><NavLink exact to="/new"> Create Booking </NavLink></StyledNavP>}
       {loggedInUser && isAdmin &&
-          <StyledNavP><NavLink exact to="/availability"> Edit Availability </NavLink></StyledNavP>}
+          <StyledNavP><NavLink exact to="/bookings"> My Bookings </NavLink></StyledNavP>}
       <div>
       <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleMenuClick}>
       <AccountBoxRoundedIcon style={{fontSize:"3rem" }} />
