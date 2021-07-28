@@ -65,9 +65,9 @@ const SignUp = () => {
           notificationStore.addNotification({
             title: "Success",
             message: "Contact details updated!",
-            type: "success",
+            type: "info",
             insert: "top",
-            container: "top-right",
+            container: "center",
             animationIn: ["animate__animated", "animate__fadeIn"],
             animationOut: ["animate__animated", "animate__fadeOut"],
             dismiss: {duration: 2000}

@@ -56,11 +56,12 @@ const SingleBooking = () => {
     deleteBooking(id)
       .then(() => {
         dispatch({type: "deleteBooking", data: id})
+        dispatch({type:'setError', data: null })
         history.push('/bookings')
         notificationStore.addNotification({
           title: "Success",
           message: "Booking deleted!",
-          type: "success",
+          type: "info",
           insert: "top",
           container: "top-right",
           animationIn: ["animate__animated", "animate__fadeIn"],

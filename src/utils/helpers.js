@@ -15,6 +15,7 @@ export const formatDate = date => {
 }
 
 export const findDateById = (id, objects) => {
+  if (!id || !objects) return null;
   let instance = objects.find(i => i.id === id);
   return formatDate(instance.date);
 }

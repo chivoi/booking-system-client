@@ -47,6 +47,7 @@ const NewBooking = () => {
           paProvided: pa_provided,
           message: message
 				})
+        dispatch({type:'setError', data: null })
 			})
 		}
 	},[id])
@@ -57,6 +58,7 @@ const NewBooking = () => {
       updateBooking( {id: id, ...formState} )
         .then(()=> {
           dispatch({type: 'updateBooking', data: {id: id, ...formState}})
+          dispatch({type:'setError', data: null })
 				  history.push(`/bookings/${id}`)
           notificationStore.addNotification({
             title: "Success",
@@ -81,7 +83,7 @@ const NewBooking = () => {
           notificationStore.addNotification({
             title: "Success",
             message: "Booking created!",
-            type: "success",
+            type: "info",
             insert: "top",
             container: "top-right",
             animationIn: ["animate__animated", "animate__fadeIn"],
@@ -178,7 +180,7 @@ const NewBooking = () => {
             onChange={handleEventTypeSelect} />
           <BoldLabel>Start time</BoldLabel>
           <TextInput type="text" name="startTime" id="startTime" value={startTime} onChange={handleChange}/>
-          <BoldLabel>Set duration(min): </BoldLabel>
+          <BoldLabel>Set duration: </BoldLabel>
           <Select 
             name="setDuration" 
             id="setDuration"

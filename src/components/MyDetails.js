@@ -23,11 +23,12 @@ const MyDetails = () => {
   const handleDelete = () => {
     deleteAccount()
       .then(() => {
+        dispatch({type:'setError', data: null })
         history.push('/log-out')
         notificationStore.addNotification({
           title: "Account deleted.",
           message: "Come back soon!",
-          type: "success",
+          type: "info",
           insert: "top",
           container: "top-right",
           animationIn: ["animate__animated", "animate__fadeIn"],

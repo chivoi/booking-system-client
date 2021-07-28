@@ -59,10 +59,8 @@ function App() {
       getBookings()
         .then(bookings => {
           sessionStorage.setItem("bookings", JSON.stringify(bookings) )
-          dispatch({
-            type: 'setBookings',
-            data: bookings
-          })
+          dispatch({type: 'setBookings', data: bookings})
+          dispatch({type:'setError', data: null })
         });
       dispatch({type: "setLoading", data: false})
     } catch(e) {
@@ -75,10 +73,8 @@ function App() {
       getUserBookings()
         .then(bookings => {
           sessionStorage.setItem("bookings", JSON.stringify(bookings) )
-          dispatch({
-            type: 'setBookings',
-            data: bookings
-          })
+          dispatch({type: 'setBookings', data: bookings})
+          dispatch({type:'setError', data: null })
         });
       dispatch({type: "setLoading", data: false})
     } catch(e) {
@@ -106,6 +102,7 @@ function App() {
               type: 'setBlockedTimeslots',
               data: timeslots
             })
+            dispatch({type:'setError', data: null })
         })
         .catch(e => {
           dispatch({type:'setError', data: e.message });
@@ -123,6 +120,7 @@ function App() {
             type: 'setTimeslots',
             data: timeslots
           })
+          dispatch({type:'setError', data: null })
       })
       .catch(e => {
         dispatch({type:'setError', data: e.message });

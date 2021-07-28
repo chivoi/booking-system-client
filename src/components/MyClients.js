@@ -15,6 +15,7 @@ const MyClients = () => {
     getClients()
       .then(clients => {
         setClients(clients)
+        dispatch({type:'setError', data: null })
       })
       .catch(e => {
         dispatch({type:'setError', data: 'Incorrect username or password. Please try again' });
