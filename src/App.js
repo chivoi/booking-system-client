@@ -113,19 +113,21 @@ function App() {
 
   // get and set available timeslots
   useEffect(() => {
-    getTimeslots()
-      .then(timeslots => {
-        sessionStorage.setItem("availableTimeslots", JSON.stringify(timeslots) )
-          dispatch({
-            type: 'setTimeslots',
-            data: timeslots
-          })
-          dispatch({type:'setError', data: null })
-      })
-      .catch(e => {
-        dispatch({type:'setError', data: e.message });
-        console.log(e);
-      });
+    if (loggedInUser) {
+      getTimeslots()
+        .then(timeslots => {
+          sessionStorage.setItem("availableTimeslots", JSON.stringify(timeslots) )
+            dispatch({
+              type: 'setTimeslots',
+              data: timeslots
+            })
+            dispatch({type:'setError', data: null })
+        })
+        .catch(e => {
+          dispatch({type:'setError', data: e.message });
+          console.log(e);
+        });
+    }
   }, [bookings, loggedInUser])
 
   const handleMenuClick = (e) => {

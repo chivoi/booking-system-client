@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {useHistory} from 'react-router-dom';
+import {useHistory, Link} from 'react-router-dom';
 import { store as notificationStore } from 'react-notifications-component';
 // utils
 import {signUp} from '../../services/auth';
@@ -103,8 +103,8 @@ const SignUp = () => {
 
   return(
     <FormDiv>
-      <FormHeading>Sign Up</FormHeading>
-      {loggedInUser ? <p>Back to my details</p> : <p>Back to the website</p> }
+      {loggedInUser ? <FormHeading>Edit contact details</FormHeading> : <FormHeading>Sign Up</FormHeading>}
+      {loggedInUser ? <Link to='/details' style={{margin: "2rem", fontSize:"1.4rem"} } >Back to my details </Link> : <p>Back to the website</p> }
       {loggedInUser ? <p>Please enter your new contact details.</p> : <p>Please enter your best contact details.</p>}
       <StyledForm>
         <label>First name: </label>

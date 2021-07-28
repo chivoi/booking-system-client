@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import Select from 'react-select';
 import { store as notificationStore } from 'react-notifications-component';
-import {useHistory, useParams} from 'react-router-dom';
+import {useHistory, useParams, Link} from 'react-router-dom';
 // styled
 import {FormDiv, StyledForm, StyledFormCol, RadioButtons, FormHeading, FormSubmit, TextInput, TextArea, BoldLabel} from './styled/FormStyles'
 // utils
@@ -159,7 +159,8 @@ const NewBooking = () => {
 
   return( 
     <FormDiv>
-      <FormHeading>New Booking</FormHeading>
+      {id ? <FormHeading>Edit Booking</FormHeading> : <FormHeading>New Booking</FormHeading>  }
+      {id && <Link to={`/bookings/${id}`} style={{margin: "2rem", fontSize:"1.4rem"} } >Back to booking details </Link> }
       <StyledForm onSubmit={handleSubmit}>
         <StyledFormCol>
           <BoldLabel>Select timeslot</BoldLabel>
