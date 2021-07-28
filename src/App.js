@@ -46,7 +46,7 @@ function App() {
 
   const [store, dispatch] = useReducer(reducer, initialState);
 
-  const { loggedInUser, userDetails, bookings } = store;
+  const { loggedInUser, userDetails, bookings, error } = store;
 
   console.log(store);
 
@@ -64,7 +64,23 @@ function App() {
         });
       dispatch({type: "setLoading", data: false})
     } catch(e) {
-      dispatch({type: "setError", data: e})
+      dispatch({type: "setError", data: e.message})
+    }
+  }
+
+  const getUserBookingsAsync = async () => {
+    try{
+      getUserBookings()
+        .then(bookings => {
+          sessionStorage.setItem("bookings", JSON.stringify(bookings) )
+          dispatch({
+            type: 'setBookings',
+            data: bookings
+          })
+        });
+      dispatch({type: "setLoading", data: false})
+    } catch(e) {
+      dispatch({type: "setError", data: e.message})
     }
   }
 
@@ -72,23 +88,8 @@ function App() {
     if (loggedInUser) {
       if (userDetails.isAdmin == "true") {
         getBookingsAsync();
-        // getBookings()
-        //   .then(bookings => {
-        //     sessionStorage.setItem("bookings", JSON.stringify(bookings) )
-        //     dispatch({
-        //       type: 'setBookings',
-        //       data: bookings
-        //     })
-        //   })
       } else {
-        getUserBookings()
-        .then(bookings => {
-          sessionStorage.setItem("bookings", JSON.stringify(bookings) )
-          dispatch({
-            type: 'setBookings',
-            data: bookings
-          })
-        })
+        getUserBookingsAsync();
       }
     }
   }, [loggedInUser, userDetails.isAdmin])
@@ -104,7 +105,10 @@ function App() {
               data: timeslots
             })
         })
-        .catch(err => console.log(err))
+        .catch(e => {
+          dispatch({type:'setError', data: e.message });
+          console.log(e);
+        });
     }
   }, [bookings, loggedInUser])
 
@@ -118,7 +122,10 @@ function App() {
             data: timeslots
           })
       })
-      .catch(err => console.log(err))
+      .catch(e => {
+        dispatch({type:'setError', data: e.message });
+        console.log(e);
+      });
   }, [bookings, loggedInUser])
 
   const handleMenuClick = (e) => {
@@ -132,25 +139,26 @@ function App() {
   return (
     <>
       <ReactNotification /> 
-      <GlobalContext.Provider value={{store,dispatch}}>
-        <Router>
-          <Nav anchorEl={anchorEl} handleMenuClick={handleMenuClick} handleMenuClose={handleMenuClose} />
-          <Switch>
-            <Route exact path="/" 
-              render = {props => (loggedInUser ? <MyBookings /> : <LogIn />)} />
-            <Route exact path="/new" render={props => <NewBooking />} />
-            <Route exact path="/bookings" render={props => <MyBookings />} />
-            <Route exact path="/bookings/:id" component={SingleBooking} />
-            <Route exact path="/bookings/update/:id" component={NewBooking} />
-            <Route exact path="/details" render={props => <MyDetails />} />
-            <Route exact path="/log-out" render={props => <LogOut />} />
-            <Route exact path="/availability" render={props => <Availability />} />
-            <Route exact path="/clients" render={props => <Clients />} />
-            <Route exact path='/log-in' component={LogIn}></Route>
-            <Route exact path='/sign-up' component={SignUp}></Route>
-          </Switch>
-        </Router>
-      </GlobalContext.Provider>
+      {error? <p style={{color: "red"} }  >{error}</p> : null}
+        <GlobalContext.Provider value={{store,dispatch}}>
+          <Router>
+            <Nav anchorEl={anchorEl} handleMenuClick={handleMenuClick} handleMenuClose={handleMenuClose} />
+            <Switch>
+              <Route exact path="/" 
+                render = {props => (loggedInUser ? <MyBookings /> : <LogIn />)} />
+              <Route exact path="/new" render={props => <NewBooking />} />
+              <Route exact path="/bookings" render={props => <MyBookings />} />
+              <Route exact path="/bookings/:id" component={SingleBooking} />
+              <Route exact path="/bookings/update/:id" component={NewBooking} />
+              <Route exact path="/details" render={props => <MyDetails />} />
+              <Route exact path="/log-out" render={props => <LogOut />} />
+              <Route exact path="/availability" render={props => <Availability />} />
+              <Route exact path="/clients" render={props => <Clients />} />
+              <Route exact path='/log-in' component={LogIn}></Route>
+              <Route exact path='/sign-up' component={SignUp}></Route>
+            </Switch>
+          </Router>
+        </GlobalContext.Provider>
     </>
   );
 }

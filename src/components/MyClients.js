@@ -9,14 +9,17 @@ import { Heading, Container, ClientDiv, GridSquare } from './styled/ClientStyles
 const MyClients = () => {
   
   const [clients, setClients] = useState([]);
-  const {store} = useGlobalContext();
+  const {store, dispatch} = useGlobalContext();
 
   useEffect(() => {
     getClients()
       .then(clients => {
         setClients(clients)
       })
-      .catch(e => console.log(e));
+      .catch(e => {
+        dispatch({type:'setError', data: 'Incorrect username or password. Please try again' });
+        console.log(e);
+      });
   }, [])
 
   const getClientsBookings = (id, bookings) => {

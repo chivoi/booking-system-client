@@ -58,6 +58,10 @@ const NewBooking = () => {
           dispatch({type: 'updateBooking', data: {id: id, ...formState}})
 				  history.push(`/bookings/${id}`)
         })
+        .catch(e => {
+          dispatch({type:'setError', data: e.message });
+          console.log(e);
+        });
     } else {
       createBooking({...formState, id: nextId(bookings)})
         .then(booking => {
@@ -66,7 +70,10 @@ const NewBooking = () => {
           console.log(bookings)
           history.push('/bookings')
         })
-        .catch(err => console.log(err))
+        .catch(e => {
+          dispatch({type:'setError', data: e.message });
+          console.log(e);
+        });
     }
   };
 

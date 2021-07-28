@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import {useHistory} from 'react-router-dom';
 import { useGlobalContext } from '../../utils/globalContext';
 import { logIn } from '../../services/auth'
+import { getBookings, getUserBookings } from '../../services/bookings';
 
 const LogIn = () => {
   const initialFormState = {
@@ -13,7 +14,8 @@ const LogIn = () => {
   
   let history = useHistory();
   
-  const { dispatch} = useGlobalContext();
+  const {dispatch} = useGlobalContext();
+  // const {loggedInUser, userDetails} = store;
 
   const handleChange = e => {
     setFormState({
@@ -25,7 +27,8 @@ const LogIn = () => {
   const handleSubmit = e => {
     e.preventDefault();
     logIn(formState)
-      .then(({username, jwt, first_name, last_name, phone_num, is_admin}) => {
+      .then(response => {
+        const {username, jwt, first_name, last_name, phone_num, is_admin} = response;
         sessionStorage.setItem("token", jwt);
         sessionStorage.setItem("email", username);
         sessionStorage.setItem("firstName", first_name);
@@ -37,10 +40,14 @@ const LogIn = () => {
         dispatch({type: 'setFirstName', data: first_name})
         dispatch({type: 'setLastName', data: last_name})
         dispatch({type: 'setPhoneNum', data: phone_num})
-        dispatch({type: 'setIsAdmin', data: is_admin}) 
+        dispatch({type: 'setIsAdmin', data: is_admin})
+
         history.push('/bookings')
 		  })
-		  .catch((error) => console.log(error))
+		  .catch(error => {
+        dispatch({type:'setError', data: 'Incorrect username or password. Please try again' })
+        console.log(error)   
+      })
   }
 
   return(

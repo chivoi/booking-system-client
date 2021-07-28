@@ -1,4 +1,3 @@
-import { nonEmptyArray } from 'check-types';
 import React, {useState, useEffect} from 'react';
 import {useParams, useHistory, Link} from 'react-router-dom';
 import {getBooking, getSingleTimeslot, getSingleClient} from '../services/bookings';
@@ -16,27 +15,35 @@ const SingleBooking = () => {
   const [client, setClient] = useState("");
   let history = useHistory();
   const {store, dispatch} = useGlobalContext();
-  // console.log(store);
   const {userDetails} = store;
 
   useEffect(() => {
     getBooking(id)
       .then(booking => setBooking(booking))
-      .catch(e => console.log(e))
+      .catch(e => {
+        dispatch({type:'setError', data: e.message });
+        console.log(e);
+      });
   },[id])
 
   
   useEffect(() => {
     getSingleTimeslot(booking.timeslot_id)
     .then(timeslot => setTimeslot(timeslot) )
-    .catch(e => console.log(e))
+    .catch(e => {
+      dispatch({type:'setError', data: e.message });
+      console.log(e);
+    });
   }, [booking])
   
   useEffect(() => {
     if (userDetails.isAdmin === "true") {
       getSingleClient(booking.user_id)
       .then(client => setClient(client) )
-      .catch(e => console.log(e))
+      .catch(e => {
+        dispatch({type:'setError', data: e.message });
+        console.log(e);
+      });
     }
   }, [booking])
 
@@ -50,6 +57,10 @@ const SingleBooking = () => {
         dispatch({type: "deleteBooking", data: id})
         history.push('/bookings')
       })
+      .catch(e => {
+        dispatch({type:'setError', data: e.message });
+        console.log(e);
+      });
   }
 
   if (!booking) return null;
@@ -75,7 +86,7 @@ const SingleBooking = () => {
         <div>{booking.message}</div>
       </div>
       <StyledButtonBox>
-        <button onClick={()=> history.push(`/bookings/update/${id}`)} >Update</button>
+       {!userDetails.isAdmin === "true" && <button onClick={()=> history.push(`/bookings/update/${id}`)} >Update</button>}
         <button onClick={handleDelete}>Delete</button>
       </StyledButtonBox>
     </Container>

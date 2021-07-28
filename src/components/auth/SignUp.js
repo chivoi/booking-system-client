@@ -35,6 +35,10 @@ const SignUp = () => {
 		        email: details.email
           })
         })
+        .catch(e => {
+          dispatch({type:'setError', data: e.message });
+          console.log(e);
+        });
       console.log(formState)
     }
   },[loggedInUser])
@@ -57,7 +61,10 @@ const SignUp = () => {
           dispatch({type: 'setPhoneNum', data: details.phone_num})
         history.push('/details')
         })
-        .catch(error => console.log(error))
+        .catch(e => {
+          dispatch({type:'setError', data: e.message });
+          console.log(e);
+        });
       } 
       else{
       signUp(formState)
@@ -72,7 +79,10 @@ const SignUp = () => {
         dispatch({type: 'setIsAdmin', data: false})
         history.push('/new')
       })
-      .catch((error) => console.log(error))
+      .catch(e => {
+        dispatch({type:'setError', data: e.message });
+        console.log(e);
+      });
     }
   }
 

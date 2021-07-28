@@ -12,7 +12,7 @@ import { StyledButtonBox} from './styled/SingleBookingStyles';
 const MyDetails = () => {
 
   let history = useHistory();
-  const {store} = useGlobalContext();
+  const {store, dispatch} = useGlobalContext();
   const {userDetails} = store;
 
   const handleUpdate = () => {
@@ -35,7 +35,10 @@ const MyDetails = () => {
             duration: 2000
           }
         });})
-      .catch(e => console.log(e))
+        .catch(e => {
+          dispatch({type:'setError', data: e.message });
+          console.log(e);
+        });
   }
 
   return(
