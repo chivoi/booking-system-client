@@ -7,7 +7,7 @@ import { getUserBookings, getBookings, getBlockedTimeslots, getTimeslots } from 
 // notifications
 import ReactNotification from 'react-notifications-component';
 import 'react-notifications-component/dist/theme.css'
-import 'animate.css/animate.min.css';
+// import 'animate.css/animate.min.css';
 // styles
 import './App.css';
 // components
