@@ -21,7 +21,7 @@ const MyClients = () => {
         dispatch({type:'setError', data: 'Incorrect username or password. Please try again' });
         console.log(e);
       });
-  }, [])
+  }, [dispatch])
 
   const getClientsBookings = (id, bookings) => {
     return bookings.filter(bkng => bkng.user_id === id)

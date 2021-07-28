@@ -29,7 +29,7 @@ const NewBooking = () => {
 
   const [formState, setFormState] = useState(initialFormState);
   
-  const {timeslotId, venue, address, eventType, startTime, setDuration, message } = formState;
+  const {venue, address, startTime, message } = formState;
 
 
   useEffect(() => {
@@ -50,6 +50,7 @@ const NewBooking = () => {
         dispatch({type:'setError', data: null })
 			})
 		}
+    // eslint-disable-next-line react-hooks/exhaustive-deps
 	},[id])
 
   const handleSubmit = e => {

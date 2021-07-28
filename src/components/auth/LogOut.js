@@ -17,13 +17,11 @@ const LogOut = () => {
     dispatch({ type: "setTimeslots", data: []})
     dispatch({ type: "setBlockedTimeslots", data: []})
     dispatch({ type: "setError", data: null})
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[]) 
+  },[dispatch]) 
 
   return(
     <>
       <h1>Logged out!</h1>
-      <p>Back to the website</p>
     </>
   )
 }

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import {useHistory} from 'react-router-dom';
 import { useGlobalContext } from '../../utils/globalContext';
 import { logIn } from '../../services/auth'
-import { getBookings, getUserBookings } from '../../services/bookings';
+// import { getBookings, getUserBookings } from '../../services/bookings';
 
 const LogIn = () => {
   const initialFormState = {

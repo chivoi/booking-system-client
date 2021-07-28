@@ -50,6 +50,7 @@ const SingleBooking = () => {
         console.log(e);
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [booking])
 
   const handleDelete = () => {
