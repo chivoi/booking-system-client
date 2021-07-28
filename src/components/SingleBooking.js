@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import {useParams, useHistory, Link} from 'react-router-dom';
-import {getBooking, getSingleTimeslot, getSingleClient} from '../services/bookings';
-import {deleteBooking} from '../services/bookings';
+import { store as notificationStore } from 'react-notifications-component';
 // utils
+import {getBooking, getSingleTimeslot, getSingleClient, deleteBooking} from '../services/bookings';
 import {useGlobalContext} from '../utils/globalContext';
 import {formatDate} from '../utils/helpers';
 // styles
@@ -19,7 +19,10 @@ const SingleBooking = () => {
 
   useEffect(() => {
     getBooking(id)
-      .then(booking => setBooking(booking))
+      .then(booking => {
+        setBooking(booking);
+        dispatch({type:'setError', data: null });
+      })
       .catch(e => {
         dispatch({type:'setError', data: e.message });
         console.log(e);
@@ -29,9 +32,11 @@ const SingleBooking = () => {
   
   useEffect(() => {
     getSingleTimeslot(booking.timeslot_id)
-    .then(timeslot => setTimeslot(timeslot) )
+    .then(timeslot => {
+      console.log(timeslot)
+      setTimeslot(timeslot)
+    })
     .catch(e => {
-      dispatch({type:'setError', data: e.message });
       console.log(e);
     });
   }, [booking])
@@ -47,21 +52,29 @@ const SingleBooking = () => {
     }
   }, [booking])
 
-  // console.log(booking);
-  // console.log(timeslot);
-  // console.log(client);
-
   const handleDelete = () => {
     deleteBooking(id)
       .then(() => {
         dispatch({type: "deleteBooking", data: id})
         history.push('/bookings')
+        notificationStore.addNotification({
+          title: "Success",
+          message: "Booking deleted!",
+          type: "success",
+          insert: "top",
+          container: "top-right",
+          animationIn: ["animate__animated", "animate__fadeIn"],
+          animationOut: ["animate__animated", "animate__fadeOut"],
+          dismiss: {duration: 2000}
+        })
       })
       .catch(e => {
         dispatch({type:'setError', data: e.message });
         console.log(e);
       });
   }
+
+  console.log(notificationStore)
 
   if (!booking) return null;
   if (!timeslot) return null;
@@ -86,7 +99,7 @@ const SingleBooking = () => {
         <div>{booking.message}</div>
       </div>
       <StyledButtonBox>
-       {!userDetails.isAdmin === "true" && <button onClick={()=> history.push(`/bookings/update/${id}`)} >Update</button>}
+       {userDetails.isAdmin == "false" && <button onClick={()=> history.push(`/bookings/update/${id}`)} >Update</button>}
         <button onClick={handleDelete}>Delete</button>
       </StyledButtonBox>
     </Container>

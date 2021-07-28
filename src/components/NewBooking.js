@@ -1,11 +1,12 @@
 import React, {useState, useEffect} from 'react';
 import Select from 'react-select';
+import { store as notificationStore } from 'react-notifications-component';
 import {useHistory, useParams} from 'react-router-dom';
-import {useGlobalContext} from '../utils/globalContext';
-import {getBooking, createBooking, updateBooking} from '../services/bookings';
 // styled
 import {FormDiv, StyledForm, StyledFormCol, RadioButtons, FormHeading, FormSubmit, TextInput, TextArea, BoldLabel} from './styled/FormStyles'
 // utils
+import {useGlobalContext} from '../utils/globalContext';
+import {getBooking, createBooking, updateBooking} from '../services/bookings';
 import {nextId, formatDate} from '../utils/helpers';
 
 
@@ -57,6 +58,16 @@ const NewBooking = () => {
         .then(()=> {
           dispatch({type: 'updateBooking', data: {id: id, ...formState}})
 				  history.push(`/bookings/${id}`)
+          notificationStore.addNotification({
+            title: "Success",
+            message: "Booking updated!",
+            type: "info",
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animate__animated", "animate__fadeIn"],
+            animationOut: ["animate__animated", "animate__fadeOut"],
+            dismiss: {duration: 2000}
+          })
         })
         .catch(e => {
           dispatch({type:'setError', data: e.message });
@@ -66,9 +77,17 @@ const NewBooking = () => {
       createBooking({...formState, id: nextId(bookings)})
         .then(booking => {
           dispatch({type: 'addBooking', data: booking})
-          console.log(booking)
-          console.log(bookings)
           history.push('/bookings')
+          notificationStore.addNotification({
+            title: "Success",
+            message: "Booking created!",
+            type: "success",
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animate__animated", "animate__fadeIn"],
+            animationOut: ["animate__animated", "animate__fadeOut"],
+            dismiss: {duration: 2000}
+          })
         })
         .catch(e => {
           dispatch({type:'setError', data: e.message });

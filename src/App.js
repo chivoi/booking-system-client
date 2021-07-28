@@ -1,12 +1,14 @@
 import React, { useState, useReducer, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import ReactNotification from 'react-notifications-component';
 // utils
 import {reducer} from './utils/reducer';
 import { GlobalContext } from './utils/globalContext';
 import { getUserBookings, getBookings, getBlockedTimeslots, getTimeslots } from './services/bookings';
-// styles
+// notifications
+import ReactNotification from 'react-notifications-component';
 import 'react-notifications-component/dist/theme.css'
+import 'animate.css/animate.min.css';
+// styles
 import './App.css';
 // components
 import Nav from './components/Nav'
@@ -137,9 +139,9 @@ function App() {
   };
 
   return (
-    <>
-      <ReactNotification /> 
+    <div>
       {error? <p style={{color: "red"} }  >{error}</p> : null}
+      <ReactNotification/> 
         <GlobalContext.Provider value={{store,dispatch}}>
           <Router>
             <Nav anchorEl={anchorEl} handleMenuClick={handleMenuClick} handleMenuClose={handleMenuClose} />
@@ -159,7 +161,7 @@ function App() {
             </Switch>
           </Router>
         </GlobalContext.Provider>
-    </>
+    </div>
   );
 }
 

@@ -5,6 +5,7 @@ import { store as notificationStore } from 'react-notifications-component';
 import { deleteAccount } from '../services/bookings';
 import { useGlobalContext } from '../utils/globalContext';
 // styles
+import 'react-notifications-component/dist/theme.css'
 import 'animate.css/animate.min.css';
 import { StyledButtonBox} from './styled/SingleBookingStyles';
 
@@ -26,7 +27,7 @@ const MyDetails = () => {
         notificationStore.addNotification({
           title: "Account deleted.",
           message: "Come back soon!",
-          type: "info",
+          type: "success",
           insert: "top",
           container: "top-right",
           animationIn: ["animate__animated", "animate__fadeIn"],

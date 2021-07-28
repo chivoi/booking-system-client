@@ -16,6 +16,7 @@ const LogOut = () => {
     dispatch({ type: "setBookings", data: []})
     dispatch({ type: "setTimeslots", data: []})
     dispatch({ type: "setBlockedTimeslots", data: []})
+    dispatch({ type: "setError", data: null})
     // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]) 
 

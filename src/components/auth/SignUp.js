@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {useHistory} from 'react-router-dom';
+import { store as notificationStore } from 'react-notifications-component';
 // utils
 import {signUp} from '../../services/auth';
 import {useGlobalContext} from '../../utils/globalContext';
@@ -59,7 +60,18 @@ const SignUp = () => {
           dispatch({type: 'setFirstName', data: details.first_name})
           dispatch({type: 'setLastName', data: details.last_name})
           dispatch({type: 'setPhoneNum', data: details.phone_num})
-        history.push('/details')
+          dispatch({type: 'setError', data: null})
+          history.push('/details')
+          notificationStore.addNotification({
+            title: "Success",
+            message: "Contact details updated!",
+            type: "success",
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animate__animated", "animate__fadeIn"],
+            animationOut: ["animate__animated", "animate__fadeOut"],
+            dismiss: {duration: 2000}
+          })
         })
         .catch(e => {
           dispatch({type:'setError', data: e.message });
@@ -77,6 +89,7 @@ const SignUp = () => {
         dispatch({type: 'setLastName', data: last_name})
         dispatch({type: 'setPhoneNum', data: phone_num})
         dispatch({type: 'setIsAdmin', data: false})
+        dispatch({type: 'setError', data: null})
         history.push('/new')
       })
       .catch(e => {
