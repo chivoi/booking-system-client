@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export const setApiUrl = () => {
   if (process.env.NODE_ENV === "production") {
-    return 'https://alex-velasco-book-staging.herokuapp.com'
+    return 'https://alex-velasco-book.herokuapp.com'
   };
 
   if (process.env.NODE_ENV === "development") {

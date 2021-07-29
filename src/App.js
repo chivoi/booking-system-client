@@ -61,8 +61,10 @@ function App() {
           sessionStorage.setItem("bookings", JSON.stringify(bookings) )
           dispatch({type: 'setBookings', data: bookings})
           dispatch({type:'setError', data: null })
-        });
-      dispatch({type: "setLoading", data: false})
+        })
+        .then(() => {
+          dispatch({type: "setLoading", data: false})
+        })
     } catch(e) {
       dispatch({type: "setError", data: e.message})
     }
