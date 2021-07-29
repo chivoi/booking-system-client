@@ -42,11 +42,10 @@ const SingleBooking = () => {
   }, [booking])
   
   useEffect(() => {
-    if (userDetails.isAdmin === "true") {
+    if (userDetails.isAdmin == "true") {
       getSingleClient(booking.user_id)
       .then(client => setClient(client) )
       .catch(e => {
-        dispatch({type:'setError', data: e.message });
         console.log(e);
       });
     }
