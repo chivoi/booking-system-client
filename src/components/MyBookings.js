@@ -12,6 +12,15 @@ const MyBookings = () => {
   const {store} = useGlobalContext();
   const {bookings, timeslots, loading} = store;
 
+  const findBookingDateById = (id) => {
+    try {
+      return findDateById(id, timeslots.blocked)
+    }catch (e) {
+      console.log(e)
+      return null
+    }
+  }
+
   return(
     <>
       <h1>My Bookings</h1>
