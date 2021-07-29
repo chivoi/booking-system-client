@@ -6,7 +6,8 @@ import {signUp} from '../../services/auth';
 import {useGlobalContext} from '../../utils/globalContext';
 import {getUserDetails, updateDetails} from '../../services/bookings';
 // styled
-import {FormDiv, StyledForm, FormHeading, FormSubmit} from '../styled/SignUpFormStyles'
+import {StyledForm, FormHeading} from '../styled/SignUpFormStyles'
+import { FormDiv, TextInput, FormSubmit } from '../styled/FormStyles';
 
 const SignUp = () => {
   const initialFormState = {
@@ -104,23 +105,23 @@ const SignUp = () => {
   return(
     <FormDiv>
       {loggedInUser ? <FormHeading>Edit contact details</FormHeading> : <FormHeading>Sign Up</FormHeading>}
-      {loggedInUser ? <Link to='/details' style={{margin: "2rem", fontSize:"1.4rem"} } >Back to my details </Link> : <p>Back to the website</p> }
+      {loggedInUser && <Link to='/details' style={{margin: "2rem", fontSize:"1.4rem"} } >Back to my details </Link> }
       {loggedInUser ? <p>Please enter your new contact details.</p> : <p>Please enter your best contact details.</p>}
-      <StyledForm>
+      <StyledForm style={{flexDirection:"column", width: "50%"} }>
         <label>First name: </label>
-        <input type="text" name="first_name" id="first_name" value={first_name} onChange={handleChange}/>
+        <TextInput style={ {marginTop:"1rem"} } type="text" name="first_name" id="first_name" value={first_name} onChange={handleChange}/>
         <label>Last name: </label>
-        <input type="text" name="last_name" id="last_name" value={last_name} onChange={handleChange} />
+        <TextInput style={ {marginTop:"1rem"} } type="text" name="last_name" id="last_name" value={last_name} onChange={handleChange} />
         <label>Phone number: </label>
-        <input type="text" name="phone_num" id="phone_num" value={phone_num}onChange={handleChange} />
+        <TextInput style={ {marginTop:"1rem"} } type="text" name="phone_num" id="phone_num" value={phone_num}onChange={handleChange} />
         <label>Email:</label>
-        <input type='email' name='email' value={email} onChange={handleChange}></input>
+        <TextInput style={ {marginTop:"1rem"} } type='email' name='email' value={email} onChange={handleChange}/>
         {!loggedInUser &&
           <div style={{display: "flex", flexDirection:"column"} }>
             <label>Password:</label>
-            <input type='password' name='password' value={password} onChange={handleChange}></input>
-            <label>Confirm password:</label>
-            <input type='password' name='password_confirmation' value={password_confirmation} onChange={handleChange}></input>
+            <TextInput style={ {marginTop:"1rem"} } type='password' name='password' value={password} onChange={handleChange} />
+            <label style={ {marginTop:"1rem"} }>Confirm password:</label>
+            <TextInput style={ {marginTop:"1rem"} } type='password' name='password_confirmation' value={password_confirmation} onChange={handleChange} />
           </div>
         }
         <FormSubmit type="submit" value={loggedInUser ? "Update Details" : "Create account"} onClick={handleSubmit} />

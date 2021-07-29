@@ -5,6 +5,7 @@ import { store as notificationStore } from 'react-notifications-component';
 import { deleteAccount } from '../services/bookings';
 import { useGlobalContext } from '../utils/globalContext';
 // styles
+import { FormDiv } from './styled/FormStyles'
 import { StyledButtonBox} from './styled/SingleBookingStyles';
 
 
@@ -42,17 +43,17 @@ const MyDetails = () => {
   }
 
   return(
-    <div>
+    <FormDiv>
       <h1>My Contact Details</h1>
-      <p>First name: {userDetails.firstName}</p>
-      <p>Last name: {userDetails.lastName}</p>
-      <p>Phone number: {userDetails.phoneNum}</p>
-      <p>Email: {store.loggedInUser}</p>
+      <p><b>First name:</b> {userDetails.firstName}</p>
+      <p><b>Last name:</b> {userDetails.lastName}</p>
+      <p><b>Phone number:</b> {userDetails.phoneNum}</p>
+      <p><b>Email:</b> {store.loggedInUser}</p>
       <StyledButtonBox>
         <button onClick={handleUpdate}>Update Details</button>
         <button onClick={handleDelete}>Delete Account</button>
       </StyledButtonBox>
-    </div>
+    </FormDiv>
   )
 }
 

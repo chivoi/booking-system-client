@@ -35,7 +35,7 @@ function App() {
       firstName: sessionStorage.getItem("firstName") || "",
       lastName: sessionStorage.getItem("lastName") || "",
       phoneNum: sessionStorage.getItem("phoneNum") || "",
-      isAdmin: sessionStorage.getItem("isAdmin") || false
+      isAdmin: sessionStorage.getItem("isAdmin") || "false"
     },
     bookings: JSON.parse(sessionStorage.getItem("bookings")) || [],
     timeslots: {

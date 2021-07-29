@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import {useHistory} from 'react-router-dom';
 import { useGlobalContext } from '../../utils/globalContext';
 import { logIn } from '../../services/auth'
-// import { getBookings, getUserBookings } from '../../services/bookings';
+// styles
+import { FormDiv, FormSubmit, StyledForm, TextInput } from '../styled/FormStyles';
 
 const LogIn = () => {
   const initialFormState = {
@@ -51,17 +52,16 @@ const LogIn = () => {
   }
 
   return(
-    <>
+    <FormDiv>
       <h1>Log In</h1>
-      <p>Back to the website</p>
-      <form>
-        <label>Email:</label>
-        <input type='email' name='email' value={formState.email} onChange={handleChange}></input>
-        <label>Password:</label>
-        <input type='password' name='password' value={formState.password} onChange={handleChange}></input>
-        <input type="submit" value="Login" onClick={handleSubmit} />
-		  </form>
-    </>
+      <StyledForm style={{flexDirection:"column", width: "50%"} } >
+        <label style={ {marginTop:"1rem"} }>Email:</label>
+        <TextInput style={ {marginTop:"1rem"} } type='email' name='email' value={formState.email} onChange={handleChange}></TextInput>
+        <label style={ {marginTop:"1rem"} }>Password:</label>
+        <TextInput style={ {marginTop:"1rem"} } type='password' name='password' value={formState.password} onChange={handleChange}></TextInput>
+        <FormSubmit style={{marginTop:"1rem"} } type="submit" value="Login" onClick={handleSubmit} />
+		  </StyledForm>
+    </FormDiv>
   )
 }
 

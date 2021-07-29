@@ -1,6 +1,8 @@
 import React, {useEffect} from 'react';
 import { logOut } from '../../services/auth';
 import { useGlobalContext } from '../../utils/globalContext';
+// styles
+import { FormDiv } from '../styled/FormStyles'
 
 const LogOut = () => {
   const { dispatch } = useGlobalContext();
@@ -20,9 +22,9 @@ const LogOut = () => {
   },[dispatch]) 
 
   return(
-    <>
-      <h1>Logged out!</h1>
-    </>
+    <FormDiv>
+      <h1 style={{textAlign: "center"} }>Logged out!</h1>
+    </FormDiv>
   )
 }
 
