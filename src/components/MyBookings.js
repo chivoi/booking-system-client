@@ -27,7 +27,7 @@ const MyBookings = () => {
       <BookingsList>
         {loading && <CircularProgress />}
           {bookings.map(booking => {
-            return <BookingDiv key={booking.id}><Col1>{findDateById(booking.timeslot_id, timeslots.blocked) }, {booking.venue}</Col1><Col2>{capitalize(booking.event_type) }, {booking.duration} min  <Link to={`/bookings/${booking.id}`} >Details</Link></Col2></BookingDiv>
+            return <BookingDiv key={booking.id}><Col1>{findBookingDateById(booking.timeslot_id)}, {booking.venue}</Col1><Col2>{capitalize(booking.event_type) }, {booking.duration} min  <Link to={`/bookings/${booking.id}`} >Details</Link></Col2></BookingDiv>
           })
         }
       </BookingsList>
